@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1677b8">
+<title>هواشناسی ایران</title>
+<link rel="icon" href="icon/icon-512.png">
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    font-family:Tahoma,Arial,sans-serif;
+    color:#fff;
+}
+
+body{
+    background:#172b3a;
+    overflow-x:hidden;
+}
+
+#background{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    background:linear-gradient(#2385c6,#102333);
+    transition:background 1s;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.18);
+}
+
+/* SUN */
+
+.sun{
+    position:absolute;
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    background:#ffd84d;
+    box-shadow:0 0 30px #ffd84d,0 0 80px rgba(255,216,77,.5);
+    top:8%;
+    left:10%;
+    animation:sunMove 7s infinite alternate ease-in-out;
+}
+
+@keyframes sunMove{
+    from{transform:translate(0,0)}
+    to{transform:translate(35px,20px)}
+}
+
+/* CLOUD */
+
+.cloud{
+    position:absolute;
+    width:180px;
+    height:55px;
+    background:rgba(255,255,255,.75);
+    border-radius:50px;
+    display:none;
+    animation:cloudMove 30s linear infinite;
+}
+
+.cloud:before{
+    content:"";
+    position:absolute;
+    width:75px;
+    height:75px;
+    background:inherit;
+    border-radius:50%;
+    top:-35px;
+    left:30px;
+}
+
+.cloud:after{
+    content:"";
+    position:absolute;
+    width:95px;
+    height:95px;
+    background:inherit;
+    border-radius:50%;
+    top:-50px;
+    right:20px;
+}
+
+.cloud1{
+    top:18%;
+    left:-220px;
+}
+
+.cloud2{
+    top:34%;
+    left:-300px;
+    transform:scale(.7);
+    opacity:.7;
+    animation-duration:40s;
+}
+
+@keyframes cloudMove{
+    from{margin-left:-250px}
+    to{margin-left:calc(100vw + 400px)}
+}
+
+/* RAIN */
+
+#rain{
+    position:absolute;
+    inset:0;
+    display:none;
+    overflow:hidden;
+}
+
+.raindrop{
+    position:absolute;
+    width:2px;
+    height:22px;
+    background:rgba(190,225,255,.8);
+    transform:rotate(15deg);
+    animation:rainFall 0.7s linear infinite;
+}
+
+@keyframes rainFall{
+    from{top:-30px}
+    to{top:110vh}
+}
+
+/* SNOW */
+
+#snow{
+    position:absolute;
+    inset:0;
+    display:none;
+    overflow:hidden;
+}
+
+.snowflake{
+    position:absolute;
+    width:7px;
+    height:7px;
+    background:white;
+    border-radius:50%;
+    animation:snowFall 6s linear infinite;
+}
+
+@keyframes snowFall{
+    from{
+        top:-20px;
+        transform:translateX(0);
+    }
+    to{
+        top:110vh;
+        transform:translateX(60px);
+    }
+}
+
+/* STARS */
+
+#stars{
+    position:absolute;
+    inset:0;
+    display:none;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:white;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2}
+    to{opacity:1}
+}
+
+/* APP */
+
+.app{
+    width:100%;
+    max-width:720px;
+    margin:auto;
+    padding-bottom:30px;
+}
+
+.header{
+    text-align:center;
+    padding:20px 15px 10px;
+}
+
+.header h1{
+    margin:0;
+    font-size:27px;
+}
+
+.header p{
+    margin:7px 0 0;
+    font-size:12px;
+    opacity:.75;
+}
+
+/* SEARCH */
+
+.search{
+    margin:10px 14px;
+}
+
+.search input{
+    width:100%;
+    border:0;
+    outline:0;
+    border-radius:17px;
+    padding:14px 16px;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    font-size:15px;
+    backdrop-filter:blur(10px);
+}
+
+.search input::placeholder{
+    color:rgba(255,255,255,.7);
+}
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    gap:8px;
+    padding:0 14px 10px;
+}
+
+.button{
+    flex:1;
+    border:0;
+    border-radius:15px;
+    padding:12px 8px;
+    background:rgba(255,255,255,.14);
+    color:white;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.button:active{
+    transform:scale(.97);
+}
+
+/* SEARCH RESULTS */
+
+#searchResults{
+    margin:0 14px 10px;
+}
+
+.searchResult{
+    width:100%;
+    border:0;
+    margin-bottom:6px;
+    padding:12px;
+    border-radius:13px;
+    background:rgba(0,0,0,.25);
+    color:#fff;
+    text-align:right;
+    cursor:pointer;
+}
+ /* WEATHER */
+
+.weatherCard{
+    margin:10px 14px;
+    padding:20px;
+    border-radius:25px;
+    background:rgba(0,0,0,.24);
+    backdrop-filter:blur(15px);
+    box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
+
+.location{
+    text-align:center;
+}
+
+.location h2{
+    margin:0;
+    font-size:25px;
+}
+
+.location p{
+    margin:6px 0;
+    opacity:.7;
+    font-size:12px;
+}
+
+.current{
+    text-align:center;
+    padding:10px 0 5px;
+}
+
+.currentIcon{
+    font-size:68px;
+}
+
+.temperature{
+    font-size:58px;
+    font-weight:bold;
+}
+
+.condition{
+    font-size:18px;
+    margin-top:2px;
+}
+
+.metrics{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:18px;
+}
+
+.metric{
+    text-align:center;
+    padding:14px 8px;
+    background:rgba(255,255,255,.10);
+    border-radius:16px;
+}
+
+.metricIcon{
+    font-size:24px;
+}
+
+.metricTitle{
+    font-size:11px;
+    opacity:.7;
+    margin-top:4px;
+}
+
+.metricValue{
+    font-size:19px;
+    font-weight:bold;
+    margin-top:4px;
+}
+
+/* FAVORITE BUTTON */
+
+.favoriteButton{
+    width:100%;
+    margin-top:12px;
+    border:0;
+    padding:12px;
+    border-radius:14px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    cursor:pointer;
+}
+
+/* FORECAST */
+
+.title{
+    font-size:18px;
+    font-weight:bold;
+    padding:12px 15px;
+}
+
+.forecast{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    padding:0 14px 8px;
+}
+
+.forecast::-webkit-scrollbar{
+    display:none;
+}
+
+.day{
+    min-width:125px;
+    padding:14px 9px;
+    text-align:center;
+    border-radius:18px;
+    background:rgba(0,0,0,.23);
+    backdrop-filter:blur(10px);
+}
+
+.dayName{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.dayDate{
+    font-size:10px;
+    opacity:.55;
+    margin-top:3px;
+}
+
+.dayIcon{
+    font-size:37px;
+    margin:7px 0;
+}
+
+.dayCondition{
+    font-size:11px;
+}
+
+.dayTemp{
+    font-size:16px;
+    margin-top:7px;
+}
+
+.dayRain{
+    font-size:11px;
+    margin-top:6px;
+}
+
+/* PROVINCES */
+
+.province{
+    margin:7px 14px;
+    border-radius:16px;
+    overflow:hidden;
+    background:rgba(0,0,0,.23);
+    backdrop-filter:blur(10px);
+}
+
+.provinceHeader{
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.provinceArrow{
+    transition:.25s;
+}
+
+.province.open .provinceArrow{
+    transform:rotate(180deg);
+}
+
+.cityList{
+    display:none;
+    padding:0 9px 10px;
+}
+
+.province.open .cityList{
+    display:block;
+}
+
+.city{
+    width:100%;
+    border:0;
+    padding:11px;
+    margin-top:5px;
+    border-radius:11px;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    text-align:right;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.city:active{
+    background:rgba(255,255,255,.2);
+}
+
+/* FAVORITES */
+
+#favorites{
+    padding:0 14px;
+}
+
+.favoriteRow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:6px 0;
+    padding:12px;
+    border-radius:14px;
+    background:rgba(0,0,0,.23);
+}
+
+.favoriteName{
+    cursor:pointer;
+}
+
+.deleteFavorite{
+    border:0;
+    background:none;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+}
+
+/* LOADING */
+
+#loading{
+    display:none;
+    text-align:center;
+    padding:15px;
+}
+
+.spinner{
+    width:30px;
+    height:30px;
+    margin:auto;
+    border:4px solid rgba(255,255,255,.2);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+/* ERROR */
+
+#error{
+    display:none;
+    margin:8px 14px;
+    padding:12px;
+    border-radius:13px;
+    background:rgba(180,0,0,.35);
+    text-align:center;
+    font-size:12px;
+}
+
+.footer{
+    text-align:center;
+    padding:20px;
+    opacity:.55;
+    font-size:10px;
+}
+
+/* ===== visual refresh (v2) ===== */
+.app{padding-bottom:calc(34px + env(safe-area-inset-bottom,0px))}
+.header{padding-top:6px}
+.header h1{letter-spacing:-.4px;text-shadow:0 3px 16px rgba(0,0,0,.28)}
+.header p{opacity:.9;font-size:13px;margin:4px 0 0;color:#ffe9a8}
+.weatherCard,.day,.province,.favoriteRow,.searchResult{-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.weatherCard{border-radius:28px}
+.currentIcon{filter:drop-shadow(0 8px 16px rgba(0,0,0,.28))}
+.temperature{font-weight:700;letter-spacing:-2px;text-shadow:0 4px 22px rgba(0,0,0,.28)}
+.button,.favoriteButton,.searchResult,.city{border-radius:16px;transition:transform .15s,background .2s}
+.button:active,.favoriteButton:active,.city:active{transform:scale(.97)}
+.search input{border:1px solid rgba(255,255,255,.24);transition:border-color .2s,background .2s}
+.search input:focus{border-color:#ffd84d;background:rgba(255,255,255,.22)}
+.title{margin-top:26px}
+</style>
+</head>
+
+<body>
+
+<div id="background">
+
+    <div class="overlay"></div>
+
+    <div class="sun" id="sun"></div>
+
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <div id="rain"></div>
+    <div id="snow"></div>
+    <div id="stars"></div>
+
+</div>
+
+<div class="app">
+ <div class="header">
+    <h1>🌦 هواشناسی ایران</h1>
+    <p id="todayLine"></p>
+</div>
+<div class="buttons">
+
+    <button class="button" id="favoriteListButton">
+        ⭐ علاقه‌مندی‌ها
+    </button>
+
+    <button class="button" id="defaultCityButton">
+        🏙️ انتخاب شهر پیش‌فرض
+    </button>
+
+</div>
+
+<div class="search"><input id="searchInput" type="search" placeholder="🔍 جست‌وجوی شهر یا استان..." autocomplete="off" aria-label="جست‌وجوی شهر"></div>
+<div id="searchResults"></div>
+
+<div id="error"></div>
+
+<div id="loading">
+    <div class="spinner"></div>
+    <div style="margin-top:7px">در حال دریافت اطلاعات...</div>
+</div>
+
+<div class="weatherCard">
+
+    <div class="location">
+        <h2 id="cityName">شیراز</h2>
+        <p id="provinceName">استان فارس</p>
+    </div>
+
+    <div class="current">
+
+        <div class="currentIcon" id="currentIcon">
+            ☀️
+        </div>
+
+        <div class="temperature">
+            <span id="temperature">--</span>°
+        </div>
+
+        <div class="condition" id="condition">
+            در حال دریافت...
+        </div>
+
+    </div>
+
+    <div class="metrics">
+
+        <div class="metric">
+
+            <div class="metricIcon">🤗</div>
+
+            <div class="metricTitle">
+                احساس دما
+            </div>
+
+            <div class="metricValue">
+                <span id="feelsLike">--</span>°
+            </div>
+
+        </div>
+
+        <div class="metric">
+
+            <div class="metricIcon">🌧</div>
+
+            <div class="metricTitle">
+                احتمال بارش
+            </div>
+
+            <div class="metricValue">
+                <span id="rainProbability">--</span>%
+            </div>
+
+        </div>
+
+    </div>
+
+    <button class="favoriteButton" id="favoriteButton">
+        ☆ افزودن به علاقه‌مندی
+    </button>
+
+</div>
+
+<div class="title">
+    📅 پیش‌بینی ۷ روز آینده
+</div>
+
+<div class="forecast" id="forecast"></div>
+
+<div class="title">
+    🇮🇷 انتخاب شهر بر اساس استان
+</div>
+
+<div id="provinces"></div>
+
+<div class="title">
+    ⭐ شهرهای مورد علاقه
+</div>
+
+<div id="favorites"></div>
+
+<div class="footer">
+    Weather data by Open-Meteo<br>
+    این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است. (علی دهقانی)
+</div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   CITY DATABASE
+   ===================================================== */
+
+var cities = {
+
+"فارس":[
+["شیراز",29.5918,52.5837],
+["کازرون",29.6195,51.6541],
+["مرودشت",29.8742,52.8025],
+["جهرم",28.5009,53.5609],
+["فسا",28.9383,53.6482],
+["لار",27.6654,54.3248],
+["آباده",31.1608,52.6506],
+["سعادت‌شهر",30.0786,53.1344],
+["اقلید",30.8996,52.6866],
+["داراب",28.7519,54.5444],
+["فیروزآباد",28.8438,52.5707],
+["نورآباد",30.1141,51.5217],
+["لامرد",27.3424,53.179],
+["مهر",27.555,54.448],
+["نی‌ریز",29.1988,54.3278],
+["استهبان",29.1266,54.0421],
+["سپیدان",30.242,51.992],
+["خرامه",29.5003,53.3111],
+["ارسنجان",29.9127,53.3088],
+["قیر",28.48,53.04],
+["فراشبند",28.86,52.09],
+["خنج",27.89,53.43],
+["گراش",27.667,54.137]
+],
+
+"تهران":[
+["تهران",35.6892,51.389],
+["ری",35.6007,51.439],
+["دماوند",35.7178,52.067],
+["پردیس",35.7419,51.9139],
+["فیروزکوه",35.755,52.775],
+["ورامین",35.3242,51.6457],
+["پاکدشت",35.4781,51.6804],
+["رباط‌کریم",35.4846,51.0829],
+["شهریار",35.6597,51.0593],
+["ملارد",35.6659,50.9767],
+["قدس",35.7261,51.1089]
+],
+
+"اصفهان":[
+["اصفهان",32.6546,51.668],
+["کاشان",33.985,51.409],
+["خمینی‌شهر",32.7001,51.5369],
+["نجف‌آباد",32.6344,51.3668],
+["شاهین‌شهر",32.8579,51.5529],
+["شهرضا",32.0114,51.8597],
+["مبارکه",32.3473,51.5045],
+["فلاورجان",32.5553,51.5096],
+["گلپایگان",33.4537,50.2884],
+["خوانسار",33.2205,50.315],
+["سمیرم",31.3974,51.5708],
+["نطنز",33.5133,51.9164],
+["اردستان",33.3761,52.3694],
+["دهاقان",31.939,51.647]
+],
+
+"خوزستان":[
+["اهواز",31.3183,48.6706],
+["دزفول",32.3811,48.4056],
+["آبادان",30.3473,48.2934],
+["خرمشهر",30.4256,48.1891],
+["شوش",32.194,48.2436],
+["شوشتر",32.0455,48.8567],
+["اندیمشک",32.46,48.3549],
+["بهبهان",30.5958,50.2417],
+["ایذه",31.8342,49.8672],
+["مسجدسلیمان",31.9364,49.3039],
+["رامهرمز",31.2792,49.6035],
+["ماهشهر",30.5588,49.1981],
+["شادگان",30.649,48.6647],
+["سوسنگرد",31.5635,48.1896]
+],
+ "مازندران":[
+["ساری",36.5659,53.0586],
+["بابل",36.5387,52.6789],
+["آمل",36.4696,52.3507],
+["قائم‌شهر",36.4635,52.8606],
+["بهشهر",36.6923,53.5526],
+["نوشهر",36.648,51.496],
+["چالوس",36.655,51.42],
+["تنکابن",36.816,50.873],
+["رامسر",36.916,50.658],
+["بابلسر",36.7025,52.6576],
+["محمودآباد",36.6319,52.2633],
+["نور",36.573,52.016],
+["فریدونکنار",36.6864,52.5225],
+["جویبار",36.641,52.911],
+["نکا",36.6503,53.299],
+["گلوگاه",36.727,53.806]
+],
+
+"گیلان":[
+["رشت",37.2808,49.5832],
+["انزلی",37.4727,49.4599],
+["لاهیجان",37.2072,50.0039],
+["رودسر",37.1376,50.2846],
+["لنگرود",37.1967,50.1536],
+["آستانه اشرفیه",37.259,49.943],
+["تالش",37.8009,48.906],
+["آستارا",38.4291,48.872],
+["رودبار",36.814,49.421],
+["فومن",37.224,49.312],
+["صومعه‌سرا",37.302,49.32],
+["ماسال",37.362,49.131],
+["رضوانشهر",37.551,49.14]
+],
+
+"آذربایجان شرقی":[
+["تبریز",38.0962,46.2738],
+["مراغه",37.3892,46.2393],
+["مرند",38.4329,45.7749],
+["میانه",37.4211,47.715],
+["اهر",38.4774,47.0699],
+["شبستر",38.1806,45.7028],
+["بناب",37.3404,46.0561],
+["سراب",37.9408,47.5367],
+["هریس",38.2498,47.1168],
+["بستان‌آباد",37.8432,46.8346],
+["اسکو",37.9158,46.1236],
+["آذرشهر",37.7589,45.9783],
+["جلفا",38.9407,45.6308],
+["هشترود",37.4779,47.0508],
+["کلیبر",38.8648,47.0396]
+],
+
+"آذربایجان غربی":[
+["ارومیه",37.5527,45.0761],
+["خوی",38.5503,44.9521],
+["میاندوآب",36.9694,46.1027],
+["مهاباد",36.7631,45.7222],
+["بوکان",36.521,46.2089],
+["سلماس",38.1973,44.7653],
+["نقده",36.9553,45.388],
+["پیرانشهر",36.6969,45.1413],
+["تکاب",36.4009,47.1133],
+["سردشت",36.1552,45.4794],
+["شاهین‌دژ",36.6793,46.5668],
+["ماکو",39.2954,44.5152],
+["اشنویه",37.0397,45.0983]
+],
+
+"اردبیل":[
+["اردبیل",38.2498,48.2933],
+["مشگین‌شهر",38.3988,47.6818],
+["خلخال",37.6189,48.5258],
+["پارس‌آباد",39.6482,47.9174],
+["گرمی",39.0373,48.0817],
+["نمین",38.4269,48.4828],
+["نیر",38.0346,48.005],
+["بیله‌سوار",39.3796,47.7431],
+["سرعین",38.1514,48.0839]
+],
+
+"البرز":[
+["کرج",35.8327,50.9916],
+["فردیس",35.7247,50.9812],
+["نظرآباد",35.9616,50.606],
+["هشتگرد",35.9619,50.685],
+["طالقان",36.173,50.7707],
+["اشتهارد",35.7235,50.0596],
+["محمدشهر",35.745,50.895]
+],
+
+"ایلام":[
+["ایلام",33.6374,46.4227],
+["دهلران",32.6941,47.2679],
+["مهران",33.1222,46.1646],
+["آبدانان",32.9926,47.4198],
+["دره‌شهر",33.1397,47.3769],
+["ایوان",33.8272,46.3097],
+["سرابله",33.7737,46.5669]
+],
+
+"بوشهر":[
+["بوشهر",28.9234,50.8203],
+["برازجان",29.2667,51.215],
+["گناوه",29.5791,50.517],
+["دیر",27.8436,51.9378],
+["کنگان",27.837,52.064],
+["جم",27.8278,52.326],
+["خورموج",28.6504,51.3807],
+["عسلویه",27.4767,52.6086]
+],
+
+"چهارمحال و بختیاری":[
+["شهرکرد",32.3256,50.8644],
+["بروجن",31.9652,51.2873],
+["فارسان",32.2569,50.5606],
+["لردگان",31.5103,50.8321],
+["اردل",31.998,50.662],
+["سامان",32.45,50.91],
+["کوهرنگ",32.45,50.12]
+],
+
+"خراسان جنوبی":[
+["بیرجند",32.8663,59.2211],
+["قائن",33.7265,59.1844],
+["فردوس",34.0185,58.1722],
+["طبس",33.5959,56.9244],
+["نهبندان",31.5417,60.0364],
+["سربیشه",32.5756,59.798]
+],
+
+"خراسان رضوی":[
+["مشهد",36.297,59.6062],
+["نیشابور",36.2141,58.7961],
+["سبزوار",36.2126,57.6819],
+["تربت حیدریه",35.2739,59.2195],
+["قوچان",37.1055,58.5095],
+["کاشمر",35.2383,58.4656],
+["تربت جام",35.2439,60.6225],
+["تایباد",34.7403,60.7756],
+["گناباد",34.3529,58.6837],
+["چناران",36.6455,59.1212],
+["درگز",37.4444,59.108],
+["خواف",34.5764,60.1408],
+["بردسکن",35.2608,57.9696],
+["فریمان",35.7069,59.8498]
+],
+
+"خراسان شمالی":[
+["بجنورد",37.4747,57.329],
+["شیروان",37.3967,57.9295],
+["اسفراین",37.0561,57.5101],
+["جاجرم",36.9496,56.3805],
+["گرمه",36.9922,56.2894],
+["فاروج",37.2231,58.2189]
+],
+
+"زنجان":[
+["زنجان",36.6736,48.4787],
+["ابهر",36.146,49.218],
+["خرمدره",36.206,49.184],
+["قیدار",36.1108,48.5903],
+["طارم",36.778,49.11],
+["ماه‌نشان",36.744,47.676]
+],
+
+"سمنان":[
+["سمنان",35.5729,53.3971],
+["شاهرود",36.4182,54.9763],
+["دامغان",36.1683,54.348],
+["گرمسار",35.2182,52.3409],
+["مهدی‌شهر",35.7028,53.3544],
+["سرخه",35.4636,53.2116]
+],
+ "سیستان و بلوچستان":[
+["زاهدان",29.4963,60.8629],
+["چابهار",25.2919,60.643],
+["زابل",31.0287,61.5012],
+["ایرانشهر",27.2025,60.6848],
+["خاش",28.2211,61.2158],
+["سراوان",27.3708,62.334],
+["نیک‌شهر",26.2336,60.2186],
+["کنارک",25.3606,60.399],
+["میرجاوه",29.0175,61.4509]
+],
+
+"قزوین":[
+["قزوین",36.2688,50.0041],
+["تاکستان",36.0696,49.6957],
+["آبیک",36.0399,50.5311],
+["بوئین زهرا",35.7669,50.0578],
+["الوند",36.3189,50.0039],
+["محمدیه",36.225,50.1908]
+],
+
+"قم":[
+["قم",34.6416,50.8746],
+["جعفریه",34.7746,50.5096],
+["کهک",34.3928,50.8669],
+["دستجرد",34.551,50.251]
+],
+
+"کردستان":[
+["سنندج",35.3219,46.9862],
+["سقز",36.2499,46.2735],
+["مریوان",35.526,46.176],
+["بانه",35.997,45.8853],
+["بیجار",35.874,47.605],
+["قروه",35.167,47.804],
+["کامیاران",34.795,46.935],
+["دیواندره",35.913,47.023],
+["دهگلان",35.278,47.42]
+],
+
+"کرمان":[
+["کرمان",30.2839,57.0834],
+["رفسنجان",30.4067,55.9939],
+["سیرجان",29.4514,55.6809],
+["جیرفت",28.674,57.738],
+["بم",29.106,58.356],
+["زرند",30.8127,56.563],
+["بافت",29.233,56.605],
+["راور",31.265,56.805],
+["شهربابک",30.116,55.118],
+["کهنوج",27.947,57.703],
+["بردسیر",29.927,56.572]
+],
+
+"کرمانشاه":[
+["کرمانشاه",34.3142,47.065],
+["اسلام‌آباد غرب",34.109,46.527],
+["پاوه",35.043,46.356],
+["جوانرود",34.806,46.489],
+["کنگاور",34.504,47.965],
+["سنقر",34.782,47.6],
+["هرسین",34.272,47.586],
+["صحنه",34.481,47.691],
+["قصرشیرین",34.515,45.579],
+["گیلانغرب",34.142,45.92],
+["سرپل ذهاب",34.461,45.863]
+],
+
+"کهگیلویه و بویراحمد":[
+["یاسوج",30.6682,51.588],
+["دهدشت",30.7948,50.7449],
+["گچساران",30.35,50.798],
+["لیکک",30.892,50.09],
+["سی‌سخت",30.859,51.455]
+],
+
+"گلستان":[
+["گرگان",36.8456,54.4393],
+["گنبد کاووس",37.2501,55.1672],
+["علی‌آباد کتول",36.91,54.866],
+["آق‌قلا",37.012,54.455],
+["بندر ترکمن",36.901,54.071],
+["کردکوی",36.795,54.112],
+["مینودشت",37.229,55.373],
+["کلاله",37.38,55.49],
+["آزادشهر",37.086,55.17],
+["رامیان",37.016,55.14]
+],
+
+"لرستان":[
+["خرم‌آباد",33.4878,48.3558],
+["بروجرد",33.8973,48.7516],
+["دورود",33.491,49.062],
+["الیگودرز",33.4006,49.6952],
+["کوهدشت",33.535,47.606],
+["نورآباد",34.0734,47.9725],
+["الشتر",33.863,48.264],
+["ازنا",33.4558,49.455],
+["پلدختر",33.1536,47.7136]
+],
+
+"مرکزی":[
+["اراک",34.0954,49.7013],
+["ساوه",35.0213,50.3566],
+["خمین",33.6418,50.0781],
+["محلات",33.908,50.455],
+["دلیجان",33.9905,50.6838],
+["تفرش",34.692,50.013],
+["آشتیان",34.521,49.971],
+["شازند",33.9275,49.4104]
+],
+
+"هرمزگان":[
+["بندرعباس",27.1832,56.2666],
+["قشم",26.9581,56.2719],
+["کیش",26.557,54.019],
+["بندر لنگه",26.5579,54.8807],
+["میناب",27.1467,57.0801],
+["رودان",27.441,57.19],
+["حاجی‌آباد",28.309,55.902],
+["بستک",27.196,54.366],
+["پارسیان",27.208,53.042],
+["جاسک",25.6439,57.776]
+],
+
+"همدان":[
+["همدان",34.7992,48.5146],
+["ملایر",34.2969,48.8235],
+["نهاوند",34.1889,48.376],
+["تویسرکان",34.548,48.447],
+["اسدآباد",34.782,48.117],
+["کبودرآهنگ",35.208,48.723],
+["رزن",35.386,49.026],
+["فامنین",35.114,48.971]
+],
+
+"یزد":[
+["یزد",31.8974,54.3569],
+["میبد",32.2432,54.0189],
+["اردکان",32.31,54.017],
+["مهریز",31.591,54.431],
+["بافق",31.6035,55.4025],
+["ابرکوه",31.1304,53.278],
+["اشکذر",32.001,54.2],
+["تفت",31.758,54.204]
+]
+
+};
+cities["مازندران"].push(["زانوس مازندران",36.3331,51.5431],["سیاه بیشه",36.2131,51.3141]);
+cities["فارس"].push(["قلات شیراز",29.8194,52.3289]);
+cities["هلند"]=[["آیندهوون",51.4408,5.4778],["روتردام",51.9225,4.4792]];
+cities["بلژیک"]=[["بروکسل",50.8504,4.3488]];
+
+
+/* =====================================================
+   WEATHER CODES
+   ===================================================== */
+
+function getWeatherInfo(code){
+
+    var table={
+
+        0:["☀️","صاف"],
+        1:["🌤","عمدتاً صاف"],
+        2:["⛅","نیمه ابری"],
+        3:["☁️","ابری"],
+
+        45:["🌫","مه"],
+        48:["🌫","مه یخ‌زننده"],
+
+        51:["🌦","نم‌نم باران"],
+        53:["🌦","بارش خفیف"],
+        55:["🌧","بارش متوسط"],
+
+        56:["🌧","باران یخ‌زن"],
+        57:["🌧","باران یخ‌زن"],
+
+        61:["🌧","باران"],
+        63:["🌧","باران متوسط"],
+        65:["🌧","باران شدید"],
+
+        66:["🌧","باران یخ‌زن"],
+        67:["🌧","باران یخ‌زن شدید"],
+
+        71:["🌨","برف"],
+        73:["❄️","برف متوسط"],
+        75:["❄️","برف شدید"],
+        77:["🌨","دانه‌های برف"],
+
+        80:["🌦","رگبار"],
+        81:["🌧","رگبار متوسط"],
+        82:["🌧","رگبار شدید"],
+
+        85:["🌨","رگبار برف"],
+        86:["❄️","رگبار برف شدید"],
+ 95:["⛈️","رعد و برق"],
+        96:["⛈️","رعد و برق و تگرگ"],
+        99:["⛈️","رعد و برق شدید"]
+    };
+
+    if(table[code]){
+        return table[code];
+    }
+
+    return ["🌡","نامشخص"];
+}
+
+
+/* =====================================================
+   CURRENT CITY
+   ===================================================== */
+
+var selectedCity={
+    name:"شیراز",
+    province:"فارس",
+    lat:29.5918,
+    lon:52.5837
+};
+
+
+/* =====================================================
+   PROVINCES
+   ===================================================== */
+
+function buildProvinces(){
+
+    var container=document.getElementById("provinces");
+
+    container.innerHTML="";
+
+    var provinceNames=Object.keys(cities);
+
+    provinceNames.sort(function(a,b){return a.localeCompare(b,"fa")});
+
+    for(var i=0;i<provinceNames.length;i++){
+
+        var provinceName=provinceNames[i];
+
+        var province=document.createElement("div");
+        province.className="province";
+
+        var header=document.createElement("div");
+        header.className="provinceHeader";
+
+        var nameSpan=document.createElement("span");
+        nameSpan.textContent="📍 "+provinceName;
+
+        var arrow=document.createElement("span");
+        arrow.className="provinceArrow";
+        arrow.textContent="▼";
+
+        header.appendChild(nameSpan);
+        header.appendChild(arrow);
+
+        var list=document.createElement("div");
+        list.className="cityList";
+
+        var provinceCities=cities[provinceName];
+
+        for(var j=0;j<provinceCities.length;j++){
+
+            var cityData=provinceCities[j];
+
+            var cityButton=document.createElement("button");
+
+            cityButton.className="city";
+
+            cityButton.textContent="🏙️ "+cityData[0];
+
+            cityButton.setAttribute(
+                "data-city",
+                cityData[0]
+            );
+
+            cityButton.onclick=(function(
+                city,
+                provinceText
+            ){
+
+                return function(){
+
+                    selectCity(
+                        city[0],
+                        provinceText,
+                        city[1],
+                        city[2],
+                        true
+                    );
+
+                };
+
+            })(cityData,provinceName);
+
+            list.appendChild(cityButton);
+        }
+
+        header.onclick=(function(element){
+
+            return function(){
+
+                element.classList.toggle("open");
+
+            };
+
+        })(province);
+
+        province.appendChild(header);
+        province.appendChild(list);
+
+        container.appendChild(province);
+    }
+}
+
+
+/* =====================================================
+   DEFAULT CITY
+   ===================================================== */
+
+function getDefaultCity(){
+    try{
+        var saved=localStorage.getItem("weatherDefaultCity");
+        if(saved){
+            var city=JSON.parse(saved);
+            if(city && city.name && city.province &&
+               typeof city.lat==="number" && typeof city.lon==="number"){
+                return city;
+            }
+        }
+    }catch(e){}
+
+    return {
+        name:"شیراز",
+        province:"فارس",
+        lat:29.5918,
+        lon:52.5837
+    };
+}
+
+function saveDefaultCity(city){
+    try{
+        localStorage.setItem("weatherDefaultCity",JSON.stringify(city));
+    }catch(e){}
+}
+
+/* =====================================================
+   SELECT CITY
+   ===================================================== */
+
+function selectCity(name,province,lat,lon,makeDefault){
+
+    selectedCity={
+        name:name,
+        province:province,
+        lat:lat,
+        lon:lon
+    };
+
+    if(makeDefault){
+        saveDefaultCity(selectedCity);
+    }
+
+    document.getElementById("cityName").textContent=name;
+
+    document.getElementById("provinceName").textContent=
+        (["هلند","بلژیک"].indexOf(province)>=0?"کشور ":"استان ")+province;
+
+    getWeather(lat,lon);
+
+    updateFavoriteButton();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* =====================================================
+   OPEN METEO
+   ===================================================== */
+
+var __wReq=0;
+function getWeather(lat,lon){
+    var myReq=++__wReq;
+    showLoading(true);
+    hideError();
+
+    var url=
+        "https://api.open-meteo.com/v1/forecast"+
+        "?latitude="+encodeURIComponent(lat)+
+        "&longitude="+encodeURIComponent(lon)+
+        "&current=temperature_2m,apparent_temperature,weather_code,is_day"+
+        "&hourly=precipitation_probability"+
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
+        "&forecast_days=7"+
+        "&timezone=auto";
+
+    var controller=null;
+    var timeoutId=null;
+
+    try{
+        if(typeof AbortController!=="undefined"){
+            controller=new AbortController();
+            timeoutId=setTimeout(function(){
+                controller.abort();
+            },15000);
+        }
+    }catch(e){}
+
+    var options={
+        method:"GET",
+        cache:"no-store"
+    };
+
+    if(controller){
+        options.signal=controller.signal;
+    }
+
+    fetch(url,options)
+    .then(function(response){
+        if(!response.ok){
+            throw new Error("HTTP "+response.status);
+        }
+        return response.json();
+    })
+    .then(function(data){
+        if(myReq!==__wReq){return;}
+        if(!data || !data.current){
+            throw new Error("Invalid weather data");
+        }
+
+        var current=data.current;
+        var info=getWeatherInfo(current.weather_code);
+
+        document.getElementById("temperature").textContent=
+            Math.round(current.temperature_2m);
+
+        document.getElementById("feelsLike").textContent=
+            Math.round(current.apparent_temperature);
+
+        document.getElementById("currentIcon").textContent=
+            info[0];
+
+        document.getElementById("condition").textContent=
+            info[1];
+
+        var rain=0;
+
+        if(
+            data.hourly &&
+            data.hourly.precipitation_probability &&
+            data.hourly.precipitation_probability.length>0
+        ){
+            var hi=data.hourly.time?data.hourly.time.indexOf(String(current.time||"").slice(0,13)+":00"):-1;
+            rain=data.hourly.precipitation_probability[hi>=0?hi:0] || 0;
+        }
+
+        document.getElementById("rainProbability").textContent=
+            Math.round(rain);
+
+        renderForecast(data.daily);
+
+        setBackground(
+            current.weather_code,
+            current.is_day
+        );
+    })
+    .catch(function(error){
+        if(myReq!==__wReq){return;}
+        var message="اتصال به سرویس هواشناسی برقرار نشد.";
+
+        if(error && error.name==="AbortError"){
+            message="زمان دریافت اطلاعات هواشناسی تمام شد. دوباره تلاش کنید.";
+        }else if(!navigator.onLine){
+            message="اینترنت دستگاه فعال نیست. اتصال اینترنت را بررسی کنید.";
+        }else{
+            message="دریافت اطلاعات هواشناسی ناموفق بود. اتصال اینترنت را بررسی کنید.";
+        }
+
+        showError(message);
+    })
+    .finally(function(){
+        if(timeoutId){
+            clearTimeout(timeoutId);
+        }
+        showLoading(false);
+    });
+}
+
+/* =====================================================
+   FORECAST
+   ===================================================== */
+
+function renderForecast(daily){
+
+    var container=document.getElementById("forecast");
+
+    container.innerHTML="";
+
+    if(!daily || !daily.time){
+        return;
+    }
+
+    var week=[
+        "یکشنبه",
+        "دوشنبه",
+        "سه‌شنبه",
+        "چهارشنبه",
+        "پنجشنبه",
+        "جمعه",
+        "شنبه"
+    ];
+
+    for(var i=0;i<daily.time.length;i++){
+
+        var date=new Date(
+            daily.time[i]+"T12:00:00"
+        );
+
+        var dayName;
+
+        if(i===0){
+            dayName="امروز";
+        }else{
+            dayName=week[date.getDay()];
+        }
+
+        var info=getWeatherInfo(
+            daily.weather_code[i]
+        );
+
+        var max=Math.round(
+            daily.temperature_2m_max[i]
+        );
+
+        var min=Math.round(
+            daily.temperature_2m_min[i]
+        );
+
+        var rain=Math.round(
+            daily.precipitation_probability_max[i] || 0
+        );
+
+        var card=document.createElement("div");
+
+        card.className="day";
+
+        var name=document.createElement("div");
+        name.className="dayName";
+        name.textContent=dayName;
+
+        var dateText=document.createElement("div");
+        dateText.className="dayDate";
+        dateText.textContent=new Intl.DateTimeFormat("fa-IR",{day:"numeric",month:"long"}).format(date);
+
+        var icon=document.createElement("div");
+        icon.className="dayIcon";
+        icon.textContent=info[0];
+
+        var condition=document.createElement("div");
+        condition.className="dayCondition";
+        condition.textContent=info[1];
+
+        var temp=document.createElement("div");
+        temp.className="dayTemp";
+        temp.textContent=max+"° / "+min+"°";
+
+        var rainText=document.createElement("div");
+        rainText.className="dayRain";
+        rainText.textContent="🌧 "+rain+"% احتمال بارش";
+
+        card.appendChild(name);
+        card.appendChild(dateText);
+        card.appendChild(icon);
+        card.appendChild(condition);
+        card.appendChild(temp);
+        card.appendChild(rainText);
+
+        container.appendChild(card);
+    }
+}
+
+
+/* =====================================================
+   SEARCH
+   ===================================================== */
+
+var searchTimeout=null;
+
+function searchCity(text){
+
+    if(searchTimeout){
+        clearTimeout(searchTimeout);
+    }
+
+    var value=text.trim();
+
+    var resultBox=
+        document.getElementById("searchResults");
+
+    resultBox.innerHTML="";
+
+    if(value.length<2){
+        return;
+    }
+
+    searchTimeout=setTimeout(function(){
+
+        var results=[];
+
+        var provinces=Object.keys(cities);
+
+        for(var i=0;i<provinces.length;i++){
+
+            var province=provinces[i];
+
+            for(var j=0;j<cities[province].length;j++){
+
+                var city=cities[province][j];
+
+                if(
+                    city[0].indexOf(value)!==-1 ||
+                    province.indexOf(value)!==-1
+                ){
+
+                    results.push({
+                        name:city[0],
+                        province:province,
+                        lat:city[1],
+                        lon:city[2]
+                    });
+
+                }
+
+            }
+        }
+
+        showSearchResults(results);
+
+    },200);
+}
+
+
+function showSearchResults(results){
+
+    var box=
+        document.getElementById("searchResults");
+
+    box.innerHTML="";
+
+    var max=results.length;
+
+    if(max>15){
+        max=15;
+    }
+
+    for(var i=0;i<max;i++){
+
+        var item=results[i];
+
+        var button=document.createElement("button");
+
+        button.className="searchResult";
+
+        button.textContent=
+            "📍 "+
+            item.name+
+            " — "+
+            item.province;
+
+        button.onclick=(function(city){
+
+            return function(){
+
+                selectCity(
+                    city.name,
+                    city.province,
+                    city.lat,
+                    city.lon
+                );
+
+                document.getElementById(
+                    "searchInput"
+                ).value="";
+
+                box.innerHTML="";
+
+            };
+
+        })(item);
+
+        box.appendChild(button);
+    }
+}
+
+
+/* =====================================================
+   FAVORITES
+   ===================================================== */
+
+function getFavorites(){
+
+    var saved=
+        (function(){try{return localStorage.getItem("weatherFavorites")}catch(e){return null}})();
+
+    if(!saved){
+        return [];
+    }
+
+    try{
+        return JSON.parse(saved);
+    }catch(e){
+        return [];
+    }
+}
+
+
+function saveFavorites(list){
+
+    try{localStorage.setItem("weatherFavorites",JSON.stringify(list))}catch(e){};
+}
+
+
+function isFavorite(){
+
+    var list=getFavorites();
+
+    for(var i=0;i<list.length;i++){
+
+        if(
+            list[i].name===selectedCity.name &&
+            Math.abs(
+                list[i].lat-selectedCity.lat
+            )<0.0001 &&
+            Math.abs(
+                list[i].lon-selectedCity.lon
+            )<0.0001
+        ){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+function toggleFavorite(){
+
+    var list=getFavorites();
+
+    var found=-1;
+
+    for(var i=0;i<list.length;i++){
+ if(
+            list[i].name===selectedCity.name &&
+            Math.abs(
+                list[i].lat-selectedCity.lat
+            )<0.0001 &&
+            Math.abs(
+                list[i].lon-selectedCity.lon
+            )<0.0001
+        ){
+
+            found=i;
+            break;
+        }
+    }
+
+    if(found>=0){
+
+        list.splice(found,1);
+
+    }else{
+
+        list.push({
+            name:selectedCity.name,
+            province:selectedCity.province,
+            lat:selectedCity.lat,
+            lon:selectedCity.lon
+        });
+
+    }
+
+    saveFavorites(list);
+
+    updateFavoriteButton();
+
+    renderFavorites();
+}
+
+
+function updateFavoriteButton(){
+
+    var button=
+        document.getElementById(
+            "favoriteButton"
+        );
+
+    if(isFavorite()){
+
+        button.textContent=
+            "★ حذف از علاقه‌مندی";
+
+    }else{
+
+        button.textContent=
+            "☆ افزودن به علاقه‌مندی";
+
+    }
+}
+
+
+function renderFavorites(){
+
+    var container=
+        document.getElementById("favorites");
+
+    container.innerHTML="";
+
+    var list=getFavorites();
+
+    if(list.length===0){
+
+        var empty=document.createElement("div");
+
+        empty.style.textAlign="center";
+        empty.style.opacity=".55";
+        empty.style.padding="10px";
+
+        empty.textContent=
+            "هنوز شهری اضافه نشده است";
+
+        container.appendChild(empty);
+
+        return;
+    }
+
+    for(var i=0;i<list.length;i++){
+
+        var item=list[i];
+
+        var row=document.createElement("div");
+
+        row.className="favoriteRow";
+
+        var name=document.createElement("div");
+
+        name.className="favoriteName";
+
+        name.textContent=
+            "⭐ "+item.name+
+            " — "+item.province;
+
+        name.onclick=(function(city){
+
+            return function(){
+
+                selectCity(
+                    city.name,
+                    city.province,
+                    city.lat,
+                    city.lon
+                );
+
+            };
+
+        })(item);
+
+        var deleteButton=
+            document.createElement("button");
+
+        deleteButton.className=
+            "deleteFavorite";
+
+        deleteButton.textContent="🗑";
+
+        deleteButton.onclick=(function(index){
+
+            return function(){
+
+                var current=getFavorites();
+
+                current.splice(index,1);
+
+                saveFavorites(current);
+
+                renderFavorites();
+
+                updateFavoriteButton();
+
+            };
+
+        })(i);
+
+        row.appendChild(name);
+        row.appendChild(deleteButton);
+
+        container.appendChild(row);
+    }
+}
+
+
+/* =====================================================
+   BACKGROUND
+   ===================================================== */
+
+function clearEffects(){
+
+    document.getElementById("rain").innerHTML="";
+    document.getElementById("snow").innerHTML="";
+    document.getElementById("stars").innerHTML="";
+
+    document.getElementById("rain").style.display="none";
+    document.getElementById("snow").style.display="none";
+    document.getElementById("stars").style.display="none";
+
+    document.getElementById("sun").style.display="none";
+
+    var clouds=document.querySelectorAll(".cloud");
+
+    for(var i=0;i<clouds.length;i++){
+        clouds[i].style.display="none";
+    }
+}
+
+
+function createRain(){
+
+    var container=
+        document.getElementById("rain");
+
+    container.style.display="block";
+
+    for(var i=0;i<90;i++){
+
+        var drop=document.createElement("div");
+
+        drop.className="raindrop";
+
+        drop.style.left=
+            Math.random()*100+"%";
+
+        drop.style.animationDelay=
+            Math.random()+"s";
+
+        drop.style.animationDuration=
+            (.4+Math.random()*.5)+"s";
+
+        container.appendChild(drop);
+    }
+}
+
+
+function createSnow(){
+
+    var container=
+        document.getElementById("snow");
+
+    container.style.display="block";
+
+    for(var i=0;i<60;i++){
+
+        var snow=document.createElement("div");
+
+        snow.className="snowflake";
+ snow.style.left=
+            Math.random()*100+"%";
+
+        snow.style.animationDelay=
+            Math.random()*5+"s";
+
+        snow.style.animationDuration=
+            (4+Math.random()*5)+"s";
+
+        container.appendChild(snow);
+    }
+}
+
+
+function createStars(){
+
+    var container=
+        document.getElementById("stars");
+
+    container.style.display="block";
+
+    for(var i=0;i<70;i++){
+
+        var star=document.createElement("div");
+
+        star.className="star";
+
+        star.style.left=
+            Math.random()*100+"%";
+
+        star.style.top=
+            Math.random()*75+"%";
+
+        star.style.animationDelay=
+            Math.random()*3+"s";
+
+        container.appendChild(star);
+    }
+}
+
+
+function setBackground(code,isDay){
+
+    clearEffects();
+
+    var bg=document.getElementById("background");
+
+    var clouds=document.querySelectorAll(".cloud");
+
+    if(!isDay){
+
+        bg.style.background=
+            "linear-gradient(#07162f,#02050c)";
+
+        createStars();
+
+        return;
+    }
+
+    if(code===0 || code===1){
+
+        bg.style.background=
+            "linear-gradient(#2385c6,#8bd7ff)";
+
+        document.getElementById("sun")
+            .style.display="block";
+
+        return;
+    }
+
+    if(code===2 || code===3){
+
+        bg.style.background=
+            "linear-gradient(#607b91,#263847)";
+
+        for(var a=0;a<clouds.length;a++){
+            clouds[a].style.display="block";
+        }
+
+        return;
+    }
+
+    if(code===45 || code===48){
+
+        bg.style.background=
+            "linear-gradient(#7e8c93,#3c484e)";
+
+        for(var b=0;b<clouds.length;b++){
+            clouds[b].style.display="block";
+        }
+
+        return;
+    }
+
+    if(
+        (code>=71 && code<=77) ||
+        (code>=85 && code<=86)
+    ){
+
+        bg.style.background=
+            "linear-gradient(#66879b,#273c4b)";
+
+        for(var c=0;c<clouds.length;c++){
+            clouds[c].style.display="block";
+        }
+
+        createSnow();
+
+        return;
+    }
+
+    if(code>=95){
+
+        bg.style.background=
+            "linear-gradient(#202a3b,#070b12)";
+
+        for(var d=0;d<clouds.length;d++){
+            clouds[d].style.display="block";
+        }
+
+        createRain();
+
+        return;
+    }
+
+    if(
+        (code>=51 && code<=67) ||
+        (code>=80 && code<=82)
+    ){
+
+        bg.style.background=
+            "linear-gradient(#435c6d,#111c26)";
+
+        for(var e=0;e<clouds.length;e++){
+            clouds[e].style.display="block";
+        }
+
+        createRain();
+
+        return;
+    }
+
+}
+
+
+/* =====================================================
+   UI
+   ===================================================== */
+
+function showLoading(value){
+
+    document.getElementById("loading")
+        .style.display=
+        value ? "block" : "none";
+}
+
+
+function showError(text){
+
+    var box=document.getElementById("error");
+
+    box.textContent=text;
+
+    box.style.display="block";
+}
+
+
+function hideError(){
+
+    document.getElementById("error")
+        .style.display="none";
+}
+
+
+/* =====================================================
+   EVENTS
+   ===================================================== */
+
+document.getElementById("favoriteButton")
+    .addEventListener(
+        "click",
+        toggleFavorite
+    );
+
+document.getElementById("favoriteListButton")
+    .addEventListener(
+        "click",
+        function(){
+
+            document.getElementById("favorites")
+                .scrollIntoView({
+                    behavior:"smooth"
+                });
+
+        }
+    );
+
+document.getElementById("defaultCityButton")
+    .addEventListener(
+        "click",
+        function(){
+            document.getElementById("provinces")
+                .scrollIntoView({
+                    behavior:"smooth"
+                });
+        }
+    );
+/* =====================================================
+   START
+   ===================================================== */
+
+document.getElementById("searchInput").addEventListener("input",function(e){searchCity(e.target.value)});
+(function(){
+    var el=document.getElementById("todayLine");
+    function fd(d){var p={};new Intl.DateTimeFormat("fa-IR-u-ca-persian",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).formatToParts(d).forEach(function(x){p[x.type]=x.value});return p.weekday+" "+p.day+" "+p.month+" "+p.year}
+    function draw(){el.textContent=fd(new Date())}
+    draw();setInterval(draw,60000);
+})();
+buildProvinces();
+renderFavorites();
+
+var defaultCity=getDefaultCity();
+
+selectCity(
+    defaultCity.name,
+    defaultCity.province,
+    defaultCity.lat,
+    defaultCity.lon,
+    false
+);
+
+</script>
+
+</body>
+</html>

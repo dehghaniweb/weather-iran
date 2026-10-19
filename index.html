@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09192d">
+<title>هواشناسی ایران</title>
+<link rel="icon" href="icon/icon-512.png">
+<link rel="apple-touch-icon" href="icon/icon-512.png">
+<style>
+:root{--bar:calc(66px + env(safe-area-inset-top,0px))}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,"Segoe UI",sans-serif;overflow:hidden}
+.bar{position:fixed;inset:0 0 auto 0;height:var(--bar);padding:env(safe-area-inset-top,0px) 12px 0;display:flex;align-items:center;justify-content:center;gap:16px;background:rgba(9,25,45,.94);border-bottom:1px solid rgba(185,218,255,.14);z-index:5}
+.brand{display:flex;align-items:center;gap:9px;font-weight:bold;font-size:15px}
+.brand img{width:38px;height:38px}
+.mode{--p:0;position:relative;direction:ltr;display:flex;width:min(310px,100%);height:44px;border-radius:999px;background:#0a1e35;border:1px solid rgba(185,218,255,.22);user-select:none;-webkit-user-select:none;touch-action:pan-y;cursor:pointer;overflow:hidden;outline-offset:3px}
+.thumb{position:absolute;top:3px;bottom:3px;width:calc(50% - 3px);right:calc(3px + var(--p)*(50% - 3px));border-radius:999px;background:linear-gradient(135deg,#ffd84d,#ffb020);box-shadow:0 4px 14px rgba(255,190,40,.35);transition:right .28s cubic-bezier(.3,.8,.3,1)}
+.mode.drag .thumb{transition:none}
+.mode label{position:relative;z-index:1;flex:1;display:grid;place-items:center;font-size:13px;font-weight:bold;color:#9eb4ce;transition:color .2s;pointer-events:none}
+.mode[data-m="0"] .l0,.mode[data-m="1"] .l1{color:#2a1a00}
+.stage{position:fixed;inset:var(--bar) 0 0 0}
+.pane{position:absolute;inset:0;transition:opacity .25s,transform .25s,visibility 0s}
+.pane[data-on="0"]{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s,transform .25s,visibility 0s linear .25s}
+.pane.b[data-on="0"]{transform:translateX(36px)}
+.pane.a[data-on="0"]{transform:translateX(-36px)}
+.pane iframe{display:block;width:100%;height:100%;border:0;background:#09192d}
+@media(max-width:560px){.brand span{display:none}}
+@media(prefers-reduced-motion:reduce){.pane,.thumb{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="brand"><img src="icon/icon-512.png" alt=""><span>هواشناسی ایران</span></div>
+  <div class="mode" id="mode" role="slider" tabindex="0" aria-label="نوع نمایش: ساده یا پیشرفته" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" aria-valuetext="ساده" data-m="0">
+    <i class="thumb"></i>
+    <label class="l1">پیشرفته</label>
+    <label class="l0">ساده</label>
+  </div>
+</header>
+<main class="stage">
+  <div class="pane b" data-on="1"><iframe title="نسخه ساده" src="basic.html"></iframe></div>
+  <div class="pane a" data-on="0"><iframe title="نسخه پیشرفته" data-src="advanced.html"></iframe></div>
+</main>
+<script>
+(function(){
+  var root=document.getElementById("mode"),panes=[].slice.call(document.querySelectorAll(".pane")),cur=0,down=false;
+  function apply(v,save){
+    cur=v;root.dataset.m=v;root.style.setProperty("--p",v);
+    root.setAttribute("aria-valuenow",v);root.setAttribute("aria-valuetext",v?"پیشرفته":"ساده");
+    panes.forEach(function(p,i){p.dataset.on=i===v?1:0});
+    var f=panes[v].querySelector("iframe");if(!f.getAttribute("src")&&f.dataset.src)f.src=f.dataset.src;
+    document.title=v?"هواشناسی ایران | پیشرفته":"هواشناسی ایران";
+    if(save!==false){try{localStorage.setItem("weatherMode",v)}catch(e){}}
+  }
+  function frac(e){var r=root.getBoundingClientRect();return Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))}
+  root.addEventListener("pointerdown",function(e){down=true;root.classList.add("drag");try{root.setPointerCapture(e.pointerId)}catch(x){}root.style.setProperty("--p",1-frac(e))});
+  root.addEventListener("pointermove",function(e){if(down)root.style.setProperty("--p",1-frac(e))});
+  root.addEventListener("pointerup",function(e){if(!down)return;down=false;root.classList.remove("drag");apply(frac(e)<.5?1:0)});
+  root.addEventListener("pointercancel",function(){down=false;root.classList.remove("drag");apply(cur)});
+  root.addEventListener("keydown",function(e){
+    if(e.key==="ArrowLeft")apply(1);else if(e.key==="ArrowRight")apply(0);
+    else if(e.key===" "||e.key==="Enter"){e.preventDefault();apply(1-cur)}
+  });
+  var s=0;try{s=+(localStorage.getItem("weatherMode")||0)}catch(e){}
+  if(location.hash==="#advanced")s=1;else if(location.hash==="#basic")s=0;
+  apply(s===1?1:0,false);
+})();
+</script>
+</body>
+</html>

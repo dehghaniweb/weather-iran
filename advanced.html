@@ -115,6 +115,105 @@ body{direction:rtl;background:radial-gradient(ellipse at 92% -8%,#2f62b5 0,trans
 .sheet-list{direction:ltr}.pk-group{direction:rtl}
 .toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:#06241f;color:#d2fbf4;border:1px solid rgba(45,212,191,.7);padding:11px 18px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:.3s;z-index:3000;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== v5: light, bright, larger type ===== */
+:root{--bg:#eef5ff;--panel:#ffffff;--panel2:#f3f8ff;--line:rgba(40,90,170,.16);--text:#12233f;--muted:#566b88;--cyan:#0ea5c6;--blue:#2f6fed;--green:#13a77f;--shadow:0 10px 30px rgba(40,80,140,.12)}
+html{background:#f1f7ff}
+body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,#cfe5ff 0,transparent 46%),radial-gradient(ellipse at 2% 24%,#d9f6ee 0,transparent 40%),linear-gradient(180deg,#eaf3ff 0%,#f6faff 45%,#fff8ec 100%)}
+.brand h1{font-size:25px;color:#0f2748}
+.brand p{font-size:15px;color:#566b88}
+.date-pill{background:#fff3d6;color:#8a5a00;border:1px solid #ffd98a;font-size:15px;padding:9px 16px}
+.soft-button{background:#fff;color:#1d4ed8;border:1px solid #c4d9fb;font-size:15px;padding:9px 16px;box-shadow:0 4px 12px rgba(40,90,170,.1)}
+.selected-strip{background:linear-gradient(120deg,#dcecff,#f2f8ff);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:18px}
+.selected-strip[data-sky="clear"]{background:linear-gradient(120deg,#8fd3ff,#ffe39c)}
+.selected-strip[data-sky="cloud"]{background:linear-gradient(120deg,#c9dcf0,#eef3f9)}
+.selected-strip[data-sky="fog"]{background:linear-gradient(120deg,#d3dce5,#eef1f4)}
+.selected-strip[data-sky="rain"]{background:linear-gradient(120deg,#a4c6e8,#d3e4f6)}
+.selected-strip[data-sky="snow"]{background:linear-gradient(120deg,#d4e6f8,#f7fbff)}
+.selected-strip[data-sky="storm"]{background:linear-gradient(120deg,#c4bdec,#e7e2f8)}
+.selected-strip[data-sky="night"]{background:linear-gradient(120deg,#b4c0ef,#dfe4fb)}
+.selected-kicker,.selected-strip[data-sky] .selected-kicker{font-size:15px;color:#3f5878}
+#heroCity{font-size:31px;color:#0f2748}
+.selected-main #heroDesc,.selected-strip[data-sky] #heroDesc{font-size:18px;color:#26405f}
+.selected-temperature,.selected-strip[data-sky] .selected-temperature{font-size:50px;color:#0b3d91;text-shadow:none}
+.pick-btn{background:#fff;border:2px solid #b9d3fb;color:#12233f;min-height:66px;box-shadow:0 6px 16px rgba(40,90,170,.14);-webkit-backdrop-filter:none;backdrop-filter:none}
+.pick-txt small{font-size:14px;color:#566b88}
+.pick-txt b{font-size:25px;color:#0f2748}
+.pick-arrow{color:#2f6fed;font-size:22px}
+.fav-section{background:linear-gradient(135deg,#fff7df,#e3faf4);border:1px solid #f1dc9c;box-shadow:0 6px 16px rgba(120,100,30,.1)}
+.fav-title{font-size:18px;color:#8a5a00}
+#favBtn,#defBtn,.fav-chip{font-size:15px;padding:10px 17px}
+#favBtn{background:#fff;border:1px solid #efbf4a;color:#8a5a00}
+#defBtn{background:#fff;border:1px solid #38c9b2;color:#0b7a6b}
+#defBtn.on{background:linear-gradient(135deg,#2dd4bf,#14b8a6);color:#fff;border-color:#14b8a6}
+.fav-chip{background:#fff;border:1px solid #c9dcf6;color:#12233f}
+.fav-chip.on{background:linear-gradient(135deg,#ffd84d,#ffb020);color:#4a2f00;border-color:#f0b323}
+.fav-empty{font-size:15px;color:#6a7f9d}
+.panel,.metric{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.metrics .metric:nth-child(1){--mc:#0891b2;background:linear-gradient(160deg,#dff7ff,#fff 70%)}
+.metrics .metric:nth-child(2){--mc:#059669;background:linear-gradient(160deg,#dcf8ec,#fff 70%)}
+.metrics .metric:nth-child(3){--mc:#5b5bd6;background:linear-gradient(160deg,#e9e8ff,#fff 70%)}
+.metrics .metric:nth-child(4){--mc:#d97706;background:linear-gradient(160deg,#fff0cc,#fff 70%)}
+.metric-head{font-size:16px;color:#3f5878}
+.metric-icon{font-size:26px}
+.metric-value{font-size:36px}
+.metric small{font-size:15px;color:#566b88}
+.panel-title{font-size:25px;color:#0f2748}
+.panel-sub{font-size:16px;color:#566b88;line-height:1.8}
+.search{font-size:17px;background:#fff;border:2px solid #bcd6fa;color:#12233f;padding:12px 15px;border-radius:14px}
+.search::placeholder{color:#7b8da8}
+.search:focus{border-color:#2f6fed}
+.map-section{background:transparent}
+#map{background:#e6eef7;border:1px solid #c4d9fb}
+.leaflet-control-zoom a{background:#fff!important;color:#1d4ed8!important;border:1px solid #c4d9fb!important}
+.leaflet-control-zoom{box-shadow:0 6px 18px rgba(30,70,140,.3)!important}
+.weather-pin .pin-temp{background:#fff;border:2px solid #4f8df5;color:#0f2748;font-size:16px;padding:3px 9px;box-shadow:0 4px 12px rgba(30,70,140,.28)}
+.weather-pin .pin-name{background:rgba(255,255,255,.95);color:#0f2748;font-size:13px;padding:1px 8px;border:1px solid #c4d9fb;border-radius:8px}
+.weather-pin .pin-symbol{font-size:20px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.city-dot{background:rgba(255,255,255,.96);border:1px solid #9cc0f5;color:#0f2748;font-size:14px;padding:4px 11px;box-shadow:0 3px 10px rgba(30,70,140,.25)}
+.hint{font-size:14px;color:#566b88}
+.status,.live-pill{font-size:14px;color:#3f5878}
+.live-pill{background:#eaf3ff;border:1px solid #c4d9fb}
+.legend-dot{width:12px;height:12px}
+.forecast-panel{border-top:4px solid #38bdf8}
+.forecast-summary{background:linear-gradient(110deg,#e2f0ff,#fff4dc);border:1px solid #c9dcf6}
+.forecast-weather-icon{font-size:50px}
+.forecast-city{font-size:23px;color:#0f2748}
+.forecast-meta{font-size:15px;color:#3f5878}
+.forecast-current strong{font-size:38px;color:#0b3d91}
+.forecast-current span{font-size:15px;color:#3f5878}
+.section-label{font-size:19px;color:#0f2748}
+.chart-wrap{height:230px}
+.forecast-panel .map-legend{display:flex;font-size:15px;color:#3f5878}
+.table-wrap{background:#fff;border:1px solid #c9dcf6}
+.wtable{font-size:16px;color:#12233f}
+.wtable thead th{background:#e8f2ff;color:#2d4666;font-size:14px;padding:12px 6px}
+.wtable td{padding:11px 6px}
+.wtable td small{display:block;font-size:12px;color:#5f7391;font-weight:normal}
+.wtable td b{font-size:16px}
+.wtable .wi{font-size:22px}
+.wtable tbody tr:nth-child(even){background:#f5f9ff}
+.wtable tr.today{background:#fff3cf!important}
+.wtable .hi{color:#e5560b;font-weight:bold;font-size:18px}
+.wtable .lo{color:#0a78c0;font-weight:bold;font-size:18px}
+.detail{background:#f3f8ff;border:1px solid #d7e5fa}
+.detail span{font-size:15px;color:#566b88}
+.detail strong{font-size:19px;color:#0f2748}
+.error{background:#ffe9ec;color:#a4243b;font-size:16px}
+.loading{font-size:17px;color:#3f5878}
+.footer{color:#3f5878;font-size:15px}
+.sheet-bg{background:rgba(20,40,80,.38)}
+.sheet-box{background:#fff;border:1px solid #c9dcf6;box-shadow:0 -16px 50px rgba(20,40,90,.3)}
+.sheet-head{font-size:21px;color:#0f2748}
+.sheet-x{background:#e9f1fd;color:#1d3b66}
+.sheet-search{background:#f3f8ff;border:2px solid #c9dcf6;color:#12233f;font-size:18px}
+.sheet-search:focus{border-color:#2f6fed}
+.sheet-list{background:#fff}
+.pk-group h4{background:#e8f2ff;color:#1d4ed8;font-size:15px}
+.pk-item{color:#12233f;font-size:19px;min-height:54px;border-bottom:1px solid #e5eefa}
+.pk-item:hover,.pk-item:active{background:#f0f6ff}
+.pk-item em{background:#ffd84d;color:#4a2f00;font-size:12px}
+.toast{background:#12233f;color:#fff;border-color:#12233f;font-size:15px}
 </style>
 </head>
 <body>
@@ -187,7 +286,7 @@ map.zoomControl.setPosition("topright");
 const markers=new Map();let cityData=new Map();let selected=(()=>{try{const d=JSON.parse(localStorage.getItem("weatherDefaultCity")||"null");if(d&&CITIES.some(c=>c.name===d.name))return d.name}catch(e){}try{const s=localStorage.getItem("weatherIranSelectedCity");if(s&&CITIES.some(c=>c.name===s))return s}catch(e){}return "تهران"})();let forecastCache=new Map();
 function markerIcon(city,w){
  const info=weatherInfo(w?.current?.weather_code);const temp=w?.current?.temperature_2m;
- return L.divIcon({className:"",html:`<div class="weather-pin"><span class="pin-temp">${Number.isFinite(temp)?fmt(temp)+"°":"--°"}</span><span class="pin-symbol">${info[1]}</span><span class="pin-name">${city.name}</span></div>`,iconSize:[74,54],iconAnchor:[37,27]});
+ return L.divIcon({className:"",html:`<div class="weather-pin"><span class="pin-temp">${Number.isFinite(temp)?fmt(temp)+"°":"--°"}</span><span class="pin-symbol">${info[1]}</span><span class="pin-name">${city.name}</span></div>`,iconSize:[90,66],iconAnchor:[45,33]});
 }
 function popupHtml(city,w){
  const c=w?.current||{};const inf=weatherInfo(c.weather_code);
@@ -212,11 +311,11 @@ function drawChart(daily){
  const vals=[...daily.temperature_2m_max.slice(0,n),...daily.temperature_2m_min.slice(0,n)].filter(Number.isFinite);
  if(!vals.length)return;let min=Math.min(...vals)-3,max=Math.max(...vals)+3;if(max===min)max=min+1;
  const x=i=>pad.l+(W-pad.l-pad.r)*(n===1?0.5:i/(n-1)),y=v=>pad.t+(H-pad.t-pad.b)*(1-(v-min)/(max-min));
- ctx.strokeStyle="rgba(180,210,245,.12)";ctx.lineWidth=1;
+ ctx.strokeStyle="rgba(60,100,160,.16)";ctx.lineWidth=1;
  for(let j=0;j<4;j++){let yy=pad.t+(H-pad.t-pad.b)*j/3;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke()}
- function line(key,color){ctx.beginPath();daily[key].slice(0,n).forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin="round";ctx.stroke();daily[key].slice(0,n).forEach((v,i)=>{ctx.beginPath();ctx.arc(x(i),y(v),2.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()})}
- line("temperature_2m_max","#ffbd79");line("temperature_2m_min","#63d8f2");
- ctx.fillStyle="#9eb4ce";ctx.font="10px Tahoma";ctx.textAlign="center";
+ function line(key,color){ctx.beginPath();daily[key].slice(0,n).forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineJoin="round";ctx.stroke();daily[key].slice(0,n).forEach((v,i)=>{ctx.beginPath();ctx.arc(x(i),y(v),3.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()})}
+ line("temperature_2m_max","#f97316");line("temperature_2m_min","#0ea5e9");
+ ctx.fillStyle="#4a6180";ctx.font="13px Tahoma";ctx.textAlign="center";
  [0,2,4,6,8,10,12].filter(i=>i<n).forEach(i=>ctx.fillText(new Intl.DateTimeFormat("fa-IR",{day:"numeric"}).format(new Date(daily.time[i]+"T12:00:00")),x(i),H-5));
 }
 function renderForecast(city,w){
@@ -226,8 +325,8 @@ function renderForecast(city,w){
  if(!d||!c){root.innerHTML='<div class="error">پیش‌بینی این شهر دریافت نشد. اتصال اینترنت را بررسی و دوباره تلاش کنید.</div>';return}
  const inf=weatherInfo(c.weather_code);
  const cards=d.time.map((date,i)=>`<div class="day-card"><div class="day-name">${i===0?"امروز":i===1?"فردا":faDate(date).split(" ")[0]}</div><div class="day-date">${faDate(date)}</div><div class="day-icon">${weatherInfo(d.weather_code[i])[1]}</div><div class="day-rain">💧 ${Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR")}٪</div><div class="day-high">${fmt(d.temperature_2m_max[i])}°</div><div class="day-low">${fmt(d.temperature_2m_min[i])}°</div></div>`).join("");
- const rows=d.time.map((date,i)=>{const dt=new Date(date+"T12:00:00"),wi=weatherInfo(d.weather_code[i]);return `<tr class="${i===0?'today ':''}${tcls(Number(d.temperature_2m_max[i]))}"><td>${i===0?"امروز":i===1?"فردا":faWeekday(dt)}</td><td>${faMonthDay(dt)}</td><td>${wi[1]} ${wi[0]}</td><td class="hi">${fmt(d.temperature_2m_max[i])}°</td><td class="lo">${fmt(d.temperature_2m_min[i])}°</td><td>${Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR")}٪</td><td>${Number(d.precipitation_sum?.[i]||0).toLocaleString("fa-IR")}</td></tr>`}).join("");
- root.innerHTML=`<div class="forecast-summary"><div class="forecast-weather-icon">${inf[1]}</div><div><div class="forecast-city">${city.name}</div><div class="forecast-meta">${inf[0]} · احساس و شرایط جوی لحظه‌ای</div><div class="forecast-meta">بیشینه امروز ${fmt(d.temperature_2m_max[0])}° · کمینه ${fmt(d.temperature_2m_min[0])}°</div></div><div class="forecast-current"><strong>${fmt(c.temperature_2m)}°C</strong><span>دمای فعلی</span></div></div><div class="section-label">روند دما در ۱۴ روز</div><div class="chart-wrap"><canvas id="tempChart" aria-label="نمودار دمای ۱۴ روز آینده"></canvas></div><div class="map-legend"><span class="legend-item"><i class="legend-dot" style="background:#ffbd79"></i> بیشینه</span><span class="legend-item"><i class="legend-dot" style="background:#63d8f2"></i> کمینه</span></div><div class="section-label">جدول پیش‌بینی روزانه</div><div class="table-wrap"><table class="wtable"><thead><tr><th>روز</th><th>تاریخ</th><th>وضعیت</th><th>بیشینه</th><th>کمینه</th><th>احتمال<br>بارش</th><th>مقدار<br>بارش (mm)</th></tr></thead><tbody>${rows}</tbody></table></div><div class="section-label">جزئیات فعلی</div><div class="detail-grid"><div class="detail"><span>رطوبت نسبی</span><strong>${c.relative_humidity_2m??"--"}٪</strong></div><div class="detail"><span>سرعت باد</span><strong>${fmt(c.wind_speed_10m)} کیلومتر/ساعت</strong></div><div class="detail"><span>بارش امروز</span><strong>${Number(d.precipitation_sum?.[0]||0).toLocaleString("fa-IR")} میلی‌متر</strong></div><div class="detail"><span>بیشینه UV</span><strong>${fmt(d.uv_index_max?.[0])}</strong></div></div>`;
+ const rows=d.time.map((date,i)=>{const dt=new Date(date+"T12:00:00"),wi=weatherInfo(d.weather_code[i]),p=Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR"),mm=Number(d.precipitation_sum?.[i]||0).toLocaleString("fa-IR");return `<tr class="${i===0?'today ':''}${tcls(Number(d.temperature_2m_max[i]))}"><td><b>${i===0?"امروز":i===1?"فردا":faWeekday(dt)}</b><small>${faMonthDay(dt)}</small></td><td><span class="wi">${wi[1]}</span> ${wi[0]}</td><td class="hi">${fmt(d.temperature_2m_max[i])}°</td><td class="lo">${fmt(d.temperature_2m_min[i])}°</td><td><b>${p}٪</b><small>${mm} mm</small></td></tr>`}).join("");
+ root.innerHTML=`<div class="forecast-summary"><div class="forecast-weather-icon">${inf[1]}</div><div><div class="forecast-city">${city.name}</div><div class="forecast-meta">${inf[0]}</div><div class="forecast-meta">بیشینه امروز ${fmt(d.temperature_2m_max[0])}° · کمینه ${fmt(d.temperature_2m_min[0])}°</div></div><div class="forecast-current"><strong>${fmt(c.temperature_2m)}°C</strong><span>دمای فعلی</span></div></div><div class="section-label">روند دما در ۱۴ روز</div><div class="chart-wrap"><canvas id="tempChart" aria-label="نمودار دمای ۱۴ روز آینده"></canvas></div><div class="map-legend"><span class="legend-item"><i class="legend-dot" style="background:#ffbd79"></i> بیشینه</span><span class="legend-item"><i class="legend-dot" style="background:#63d8f2"></i> کمینه</span></div><div class="section-label">جدول پیش‌بینی روزانه</div><div class="table-wrap"><table class="wtable"><thead><tr><th>روز</th><th>وضعیت</th><th>بیشینه</th><th>کمینه</th><th>احتمال و<br>مقدار بارش</th></tr></thead><tbody>${rows}</tbody></table></div><div class="section-label">جزئیات فعلی</div><div class="detail-grid"><div class="detail"><span>رطوبت نسبی</span><strong>${c.relative_humidity_2m??"--"}٪</strong></div><div class="detail"><span>سرعت باد</span><strong>${fmt(c.wind_speed_10m)} کیلومتر/ساعت</strong></div><div class="detail"><span>بارش امروز</span><strong>${Number(d.precipitation_sum?.[0]||0).toLocaleString("fa-IR")} میلی‌متر</strong></div><div class="detail"><span>بیشینه UV</span><strong>${fmt(d.uv_index_max?.[0])}</strong></div></div>`;
  requestAnimationFrame(()=>drawChart(d));
 }
 const pending=new Set();

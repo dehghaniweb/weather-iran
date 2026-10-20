@@ -20,7 +20,7 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 .brand{display:flex;align-items:center;gap:9px;font-weight:bold;font-size:15px}
 .brand img{width:38px;height:38px}
 .mode{--p:0;position:relative;direction:ltr;display:flex;width:min(310px,100%);height:44px;border-radius:999px;background:#0a1e35;border:1px solid rgba(185,218,255,.22);user-select:none;-webkit-user-select:none;touch-action:pan-y;cursor:pointer;overflow:hidden;outline-offset:3px}
-.thumb{position:absolute;top:3px;bottom:3px;width:calc(50% - 3px);right:calc(3px + var(--p)*(50% - 3px));border-radius:999px;background:linear-gradient(135deg,#ffd84d,#ffb020);box-shadow:0 4px 14px rgba(255,190,40,.35);transition:right .28s cubic-bezier(.3,.8,.3,1)}
+.thumb{position:absolute;top:3px;bottom:3px;width:calc(50% - 3px);right:calc(3px + var(--p)*(50% - 3px));border-radius:999px;background:linear-gradient(135deg,#ffd84d,#ffb020);box-shadow:0 4px 14px rgba(255,190,40,.35);transition:right .24s ease}
 .mode.drag .thumb{transition:none}
 .mode label{position:relative;z-index:1;flex:1;display:grid;place-items:center;font-size:13px;font-weight:bold;color:#9eb4ce;transition:color .2s;pointer-events:none}
 .mode[data-m="0"] .l0,.mode[data-m="1"] .l1{color:#2a1a00}
@@ -33,8 +33,7 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 @media(max-width:560px){.brand span{display:none}}
 @media(prefers-reduced-motion:reduce){.pane,.thumb{transition:none!important}}
 .bar{background:linear-gradient(180deg,#10294a,#09192d)}
-#install{border:1px solid rgba(255,200,61,.55);background:rgba(255,200,61,.14);color:#ffe27a;border-radius:999px;padding:10px 14px;font:inherit;font-size:12px;font-weight:bold;cursor:pointer;white-space:nowrap}
-#install[hidden]{display:none}
+
 </style>
 </head>
 <body>
@@ -45,7 +44,6 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
     <label class="l1">پیشرفته</label>
     <label class="l0">ساده</label>
   </div>
-  <button id="install" type="button" hidden>📲 نصب برنامه</button>
 </header>
 <main class="stage">
   <div class="pane b" data-on="1"><iframe title="نسخه ساده" src="basic.html"></iframe></div>
@@ -63,8 +61,13 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
     if(save!==false){try{localStorage.setItem("weatherMode",v)}catch(e){}}
   }
   function frac(e){var r=root.getBoundingClientRect();return Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))}
-  root.addEventListener("pointerdown",function(e){down=true;root.classList.add("drag");try{root.setPointerCapture(e.pointerId)}catch(x){}root.style.setProperty("--p",1-frac(e))});
-  root.addEventListener("pointermove",function(e){if(down)root.style.setProperty("--p",1-frac(e))});
+  var sx=0,moved=false;
+  root.addEventListener("pointerdown",function(e){down=true;moved=false;sx=e.clientX;try{root.setPointerCapture(e.pointerId)}catch(x){}});
+  root.addEventListener("pointermove",function(e){
+    if(!down)return;
+    if(!moved&&Math.abs(e.clientX-sx)>8){moved=true;root.classList.add("drag")}
+    if(moved)root.style.setProperty("--p",1-frac(e));
+  });
   root.addEventListener("pointerup",function(e){if(!down)return;down=false;root.classList.remove("drag");apply(frac(e)<.5?1:0)});
   root.addEventListener("pointercancel",function(){down=false;root.classList.remove("drag");apply(cur)});
   root.addEventListener("keydown",function(e){
@@ -77,13 +80,7 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 })();
 </script>
 <script>
-(function(){
-  var dp=null,ib=document.getElementById("install");
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;ib.hidden=false});
-  ib.addEventListener("click",function(){if(!dp)return;dp.prompt();dp.userChoice.then(function(){dp=null;ib.hidden=true})});
-  window.addEventListener("appinstalled",function(){ib.hidden=true});
-  if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
-})();
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script>
 </body>
 </html>

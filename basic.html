@@ -634,6 +634,25 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 .pk-item:active,.pk-item:hover{background:rgba(255,255,255,.1)}
 .toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:#06241f;color:#d2fbf4;border:1px solid rgba(45,212,191,.7);padding:11px 18px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:.3s;z-index:3000;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== v5: no sun/moon behind buttons, bigger type, min/max ===== */
+.sun,.moon{display:none!important}
+.condition{font-size:27px;font-weight:bold;margin-top:4px}
+.metricIcon{font-size:30px}
+.metricTitle{font-size:16px;opacity:.95;margin-top:6px;font-weight:bold}
+.metricValue{font-size:31px;margin-top:4px}
+.dayName{font-size:17px}
+.dayDate{font-size:13px;opacity:.85}
+.dayCondition{font-size:15px;font-weight:bold}
+.dayRain{font-size:14px}
+.dayTemp{font-size:21px}
+.cardActions .favoriteButton{font-size:13px;padding:11px 6px;white-space:nowrap}
+.minmax{display:flex;justify-content:center;gap:12px;margin:8px 0 4px}
+.mm{display:flex;flex-direction:column;align-items:center;min-width:112px;padding:7px 16px;border-radius:16px}
+.mm small{font-size:13px;opacity:.95}
+.mm b{font-size:22px}
+.mm.lo{background:rgba(90,170,255,.3);border:1px solid rgba(120,190,255,.6)}
+.mm.hi{background:rgba(255,140,80,.3);border:1px solid rgba(255,170,110,.6)}
 </style>
 </head>
 
@@ -690,6 +709,7 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
             ☀️
         </div>
 
+        <div class="minmax"><span class="mm lo"><small>کمترین</small><b><span id="tempMin">--</span>°C</b></span><span class="mm hi"><small>بیشترین</small><b><span id="tempMax">--</span>°C</b></span></div>
         <div class="temperature">
             <span id="temperature">--</span>°
         </div>
@@ -1460,8 +1480,11 @@ function getWeather(lat,lon){
         document.getElementById("currentIcon").textContent=
             info[0];
 
-        document.getElementById("condition").textContent=
-            info[1];
+        document.getElementById("condition").textContent=info[1];
+        if(data.daily&&data.daily.temperature_2m_max){
+            document.getElementById("tempMax").textContent=Math.round(data.daily.temperature_2m_max[0]);
+            document.getElementById("tempMin").textContent=Math.round(data.daily.temperature_2m_min[0]);
+        }
 
         var rain=0;
 

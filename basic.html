@@ -562,6 +562,78 @@ body{
 .province{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.06))}
 .weatherCard{background:linear-gradient(160deg,rgba(255,255,255,.26),rgba(255,255,255,.08))}
 .favoriteRow{background:linear-gradient(160deg,rgba(255,216,77,.2),rgba(255,255,255,.07))}
+
+/* ===== v4: scenes, colour variety, default-city sheet ===== */
+html{direction:ltr}
+body{direction:rtl}
+.header h1,.header p,.title{text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.header p{color:var(--accent,#ffe9a8)}
+.weatherCard,.day,.province,.favoriteRow,.searchResult{background:var(--card,rgba(0,0,0,.26))}
+.title{display:flex;align-items:center;gap:9px;color:#fff}
+.title::before{content:"";width:5px;height:21px;border-radius:3px;background:var(--accent,#ffd84d);flex:none}
+.button svg,.favoriteButton svg{width:18px;height:18px;fill:currentColor;vertical-align:-4px;margin-inline-end:6px}
+.button{display:flex;align-items:center;justify-content:center;font-weight:bold}
+.btnFav{background:linear-gradient(135deg,rgba(255,200,61,.36),rgba(255,200,61,.12));border:1px solid rgba(255,200,61,.55);color:#fff3c4}
+.btnFav svg{color:#ffd84d}
+.btnDef{background:linear-gradient(135deg,rgba(45,212,191,.36),rgba(45,212,191,.12));border:1px solid rgba(45,212,191,.55);color:#d2fbf4}
+.btnDef svg{color:#5eead4}
+.cardActions{display:flex;gap:8px;margin-top:14px}
+.cardActions .favoriteButton{margin-top:0;flex:1;font-size:13px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+.favoriteButton{background:linear-gradient(135deg,rgba(255,200,61,.3),rgba(255,200,61,.1));border:1px solid rgba(255,200,61,.5);color:#fff3c4}
+.favoriteButton.defaultSet{background:linear-gradient(135deg,rgba(45,212,191,.3),rgba(45,212,191,.1));border-color:rgba(45,212,191,.5);color:#d2fbf4}
+.favoriteButton.defaultSet.on{background:linear-gradient(135deg,#2dd4bf,#14b8a6);color:#04312c}
+.metric:nth-child(1){background:linear-gradient(145deg,rgba(255,159,64,.34),rgba(255,159,64,.1));border:1px solid rgba(255,159,64,.45)}
+.metric:nth-child(2){background:linear-gradient(145deg,rgba(90,170,255,.34),rgba(90,170,255,.1));border:1px solid rgba(90,170,255,.45)}
+.currentIcon{filter:drop-shadow(0 8px 18px rgba(0,0,0,.3))}
+.forecast{flex-direction:column;overflow:visible;gap:9px}
+.day{min-width:0;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"icon name temp" "icon date rain" "icon cond cond";column-gap:14px;align-items:center;text-align:right;padding:12px 15px;border:1px solid rgba(255,255,255,.14);border-right:6px solid var(--tc,#4fb3f3)}
+.dayIcon{grid-area:icon;font-size:38px;margin:0}
+.dayName{grid-area:name;font-size:15px}
+.dayDate{grid-area:date;opacity:.75;margin:0}
+.dayCondition{grid-area:cond;opacity:.92;font-size:12px}
+.dayTemp{grid-area:temp;font-size:17px;font-weight:bold;margin:0;text-align:left}
+.dayRain{grid-area:rain;margin:0;text-align:left;opacity:.92}
+.t-hot{--tc:#ff6b4a}.t-warm{--tc:#ffb347}.t-mild{--tc:#7ddc8a}.t-cool{--tc:#4fb3f3}.t-cold{--tc:#9fb8ff}
+.province{border-right:6px solid #ff8a65}
+.province:nth-child(6n+2){border-right-color:#ffd54f}
+.province:nth-child(6n+3){border-right-color:#7ddc8a}
+.province:nth-child(6n+4){border-right-color:#4dd0e1}
+.province:nth-child(6n+5){border-right-color:#7e9bff}
+.province:nth-child(6n+6){border-right-color:#ce93d8}
+.city{background:rgba(255,255,255,.1)}
+.favoriteRow{border-right:6px solid #ffd54f}
+.footer{opacity:.8;font-size:11px;line-height:1.9;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+/* scenes */
+.sun{background:radial-gradient(circle,#fff6c2 0,#ffd84d 62%);box-shadow:0 0 40px #ffd84d,0 0 110px rgba(255,216,77,.55)}
+.moon{position:absolute;top:9%;right:13%;width:72px;height:72px;border-radius:50%;background:#fff6d6;box-shadow:inset -15px -6px 0 rgba(0,0,0,.08),0 0 40px rgba(255,246,214,.55),0 0 100px rgba(255,246,214,.25);display:none}
+.fog{position:absolute;left:-30%;width:160%;height:34%;display:none;background:radial-gradient(ellipse at center,rgba(255,255,255,.6),rgba(255,255,255,0) 70%);filter:blur(16px);animation:fogDrift 26s ease-in-out infinite alternate}
+.fog1{top:6%}
+.fog2{top:34%;animation-duration:36s;animation-direction:alternate-reverse;opacity:.8}
+.fog3{top:62%;animation-duration:44s;opacity:.9}
+@keyframes fogDrift{from{transform:translateX(-9%)}to{transform:translateX(9%)}}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;display:none;animation:flash 8s infinite}
+@keyframes flash{0%,91%,100%{opacity:0}92%{opacity:.4}93%{opacity:0}95%{opacity:.55}97%{opacity:0}}
+body[data-scene$="-night"] .cloud{background:rgba(175,195,232,.3)}
+body[data-scene^="rain"] .cloud,body[data-scene^="storm"] .cloud{background:rgba(110,130,158,.6)}
+body[data-scene^="fog"] .cloud{background:rgba(255,255,255,.35)}
+body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
+/* default-city sheet + toast */
+.sheet[hidden],.pk-item[hidden],.pk-group[hidden]{display:none}
+.sheet{position:fixed;inset:0;z-index:2000;display:flex;align-items:flex-end;justify-content:center}
+.sheet-bg{position:absolute;inset:0;background:rgba(2,10,22,.64)}
+.sheet-box{position:relative;width:min(560px,100%);max-height:86vh;display:flex;flex-direction:column;gap:10px;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));border-radius:26px 26px 0 0;background:linear-gradient(170deg,#173a63,#0a1d36);border:1px solid rgba(255,255,255,.16);box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;font-size:17px}
+.sheet-x{border:0;background:rgba(255,255,255,.14);color:#fff;width:36px;height:36px;border-radius:50%;font-size:15px;cursor:pointer}
+.sheet-note{font-size:12px;color:#5eead4}
+.sheet-search{width:100%;padding:14px 16px;border-radius:15px;border:1px solid rgba(255,255,255,.2);background:#06172b;color:#fff;font:inherit;font-size:16px;outline:none}
+.sheet-search:focus{border-color:#5eead4}
+.sheet-list{direction:ltr;overflow:auto;overscroll-behavior:contain;border-radius:14px;background:rgba(6,23,43,.45)}
+.pk-group{direction:rtl}
+.pk-group h4{position:sticky;top:0;margin:0;padding:8px 14px;background:#0f3a52;color:#5eead4;font-size:12px;z-index:1}
+.pk-item{display:block;width:100%;min-height:48px;padding:10px 16px;border:0;border-bottom:1px solid rgba(255,255,255,.07);background:transparent;color:#eef5ff;font:inherit;font-size:16px;text-align:right;cursor:pointer}
+.pk-item:active,.pk-item:hover{background:rgba(255,255,255,.1)}
+.toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:#06241f;color:#d2fbf4;border:1px solid rgba(45,212,191,.7);padding:11px 18px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:.3s;z-index:3000;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 
@@ -579,6 +651,9 @@ body{
     <div id="rain"></div>
     <div id="snow"></div>
     <div id="stars"></div>
+    <div class="moon" id="moon"></div>
+    <div class="fog fog1"></div><div class="fog fog2"></div><div class="fog fog3"></div>
+    <div class="flash" id="flash"></div>
 
 </div>
 
@@ -588,15 +663,8 @@ body{
     <p id="todayLine"></p>
 </div>
 <div class="buttons">
-
-    <button class="button" id="favoriteListButton">
-        ⭐ علاقه‌مندی‌ها
-    </button>
-
-    <button class="button" id="defaultCityButton">
-        🏙️ انتخاب شهر پیش‌فرض
-    </button>
-
+    <button class="button btnFav" id="favoriteListButton"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1z"/></svg><span>علاقه‌مندی‌ها</span></button>
+    <button class="button btnDef" id="defaultCityButton"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span>انتخاب شهر پیش‌فرض</span></button>
 </div>
 
 <div class="search"><input id="searchInput" type="search" placeholder="🔍 جست‌وجوی شهر یا استان..." autocomplete="off" aria-label="جست‌وجوی شهر"></div>
@@ -664,14 +732,15 @@ body{
 
     </div>
 
-    <button class="favoriteButton" id="favoriteButton">
-        ☆ افزودن به علاقه‌مندی
-    </button>
+    <div class="cardActions">
+        <button class="favoriteButton" id="favoriteButton">☆ افزودن به علاقه‌مندی</button>
+        <button class="favoriteButton defaultSet" id="setDefaultButton"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span id="setDefaultText">تنظیم پیش‌فرض</span></button>
+    </div>
 
 </div>
 
 <div class="title">
-    📅 پیش‌بینی ۷ روز آینده
+    📅 پیش‌بینی ۱۴ روز آینده
 </div>
 
 <div class="forecast" id="forecast"></div>
@@ -690,11 +759,13 @@ body{
 
 <div class="footer">
     Weather data by Open-Meteo<br>
-    این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است. (علی دهقانی)
+    این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است. (علی و امیرآرشا دهقانی)
 </div>
 
 </div>
 
+<div id="defSheet" class="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-box" role="dialog" aria-modal="true" aria-label="انتخاب شهر پیش‌فرض"><div class="sheet-head"><b>انتخاب شهر پیش‌فرض</b><button type="button" class="sheet-x" data-close aria-label="بستن">✕</button></div><div class="sheet-note" id="defNow"></div><input id="defSearch" class="sheet-search" type="search" placeholder="🔍 جست‌وجوی شهر یا استان…" autocomplete="off"><div id="defList" class="sheet-list"></div></div></div>
+<div id="toast" class="toast"></div>
 <script>
 
 /* =====================================================
@@ -1100,8 +1171,6 @@ var cities = {
 };
 cities["مازندران"].push(["زانوس مازندران",36.3331,51.5431],["سیاه بیشه",36.2131,51.3141]);
 cities["فارس"].push(["قلات شیراز",29.8194,52.3289]);
-cities["هلند"]=[["آیندهوون",51.4408,5.4778],["روتردام",51.9225,4.4792]];
-cities["بلژیک"]=[["بروکسل",50.8504,4.3488]];
 
 
 /* =====================================================
@@ -1195,7 +1264,7 @@ function buildProvinces(){
         header.className="provinceHeader";
 
         var nameSpan=document.createElement("span");
-        nameSpan.textContent="📍 "+provinceName;
+        nameSpan.textContent=provinceName;
 
         var arrow=document.createElement("span");
         arrow.className="provinceArrow";
@@ -1217,7 +1286,7 @@ function buildProvinces(){
 
             cityButton.className="city";
 
-            cityButton.textContent="🏙️ "+cityData[0];
+            cityButton.textContent=cityData[0];
 
             cityButton.setAttribute(
                 "data-city",
@@ -1235,9 +1304,7 @@ function buildProvinces(){
                         city[0],
                         provinceText,
                         city[1],
-                        city[2],
-                        true
-                    );
+                        city[2],false);
 
                 };
 
@@ -1314,11 +1381,11 @@ function selectCity(name,province,lat,lon,makeDefault){
     document.getElementById("cityName").textContent=name;
 
     document.getElementById("provinceName").textContent=
-        (["هلند","بلژیک"].indexOf(province)>=0?"کشور ":"استان ")+province;
+        "استان "+province;
 
     getWeather(lat,lon);
-
     updateFavoriteButton();
+    updateDefaultButton();
 
     window.scrollTo({
         top:0,
@@ -1344,7 +1411,7 @@ function getWeather(lat,lon){
         "&current=temperature_2m,apparent_temperature,weather_code,is_day"+
         "&hourly=precipitation_probability"+
         "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
-        "&forecast_days=7"+
+        "&forecast_days=14"+
         "&timezone=auto";
 
     var controller=null;
@@ -1495,7 +1562,7 @@ function renderForecast(daily){
 
         var card=document.createElement("div");
 
-        card.className="day";
+        card.className="day "+(max>=35?"t-hot":max>=26?"t-warm":max>=16?"t-mild":max>=6?"t-cool":"t-cold");
 
         var name=document.createElement("div");
         name.className="dayName";
@@ -1615,7 +1682,6 @@ function showSearchResults(results){
         button.className="searchResult";
 
         button.textContent=
-            "📍 "+
             item.name+
             " — "+
             item.province;
@@ -1800,7 +1866,7 @@ function renderFavorites(){
         name.className="favoriteName";
 
         name.textContent=
-            "⭐ "+item.name+
+            item.name+
             " — "+item.province;
 
         name.onclick=(function(city){
@@ -1857,25 +1923,10 @@ function renderFavorites(){
    ===================================================== */
 
 function clearEffects(){
-
-    document.getElementById("rain").innerHTML="";
-    document.getElementById("snow").innerHTML="";
-    document.getElementById("stars").innerHTML="";
-
-    document.getElementById("rain").style.display="none";
-    document.getElementById("snow").style.display="none";
-    document.getElementById("stars").style.display="none";
-
-    document.getElementById("sun").style.display="none";
-
-    var clouds=document.querySelectorAll(".cloud");
-
-    for(var i=0;i<clouds.length;i++){
-        clouds[i].style.display="none";
-    }
+    ["rain","snow","stars"].forEach(function(id){var e=document.getElementById(id);e.innerHTML="";e.style.display="none";});
+    ["sun","moon","flash"].forEach(function(id){document.getElementById(id).style.display="none";});
+    [].forEach.call(document.querySelectorAll(".cloud,.fog"),function(e){e.style.display="none";});
 }
-
-
 function createRain(){
 
     var container=
@@ -1956,114 +2007,49 @@ function createStars(){
 }
 
 
-function setBackground(code,isDay){
-
-    clearEffects();
-
-    var bg=document.getElementById("background");
-
-    var clouds=document.querySelectorAll(".cloud");
-
-    if(!isDay){
-
-        bg.style.background=
-            "linear-gradient(#07162f,#02050c)";
-
-        createStars();
-
-        return;
-    }
-
-    if(code===0 || code===1){
-
-        bg.style.background=
-            "linear-gradient(#2385c6,#8bd7ff)";
-
-        document.getElementById("sun")
-            .style.display="block";
-
-        return;
-    }
-
-    if(code===2 || code===3){
-
-        bg.style.background=
-            "linear-gradient(#607b91,#263847)";
-
-        for(var a=0;a<clouds.length;a++){
-            clouds[a].style.display="block";
-        }
-
-        return;
-    }
-
-    if(code===45 || code===48){
-
-        bg.style.background=
-            "linear-gradient(#7e8c93,#3c484e)";
-
-        for(var b=0;b<clouds.length;b++){
-            clouds[b].style.display="block";
-        }
-
-        return;
-    }
-
-    if(
-        (code>=71 && code<=77) ||
-        (code>=85 && code<=86)
-    ){
-
-        bg.style.background=
-            "linear-gradient(#66879b,#273c4b)";
-
-        for(var c=0;c<clouds.length;c++){
-            clouds[c].style.display="block";
-        }
-
-        createSnow();
-
-        return;
-    }
-
-    if(code>=95){
-
-        bg.style.background=
-            "linear-gradient(#202a3b,#070b12)";
-
-        for(var d=0;d<clouds.length;d++){
-            clouds[d].style.display="block";
-        }
-
-        createRain();
-
-        return;
-    }
-
-    if(
-        (code>=51 && code<=67) ||
-        (code>=80 && code<=82)
-    ){
-
-        bg.style.background=
-            "linear-gradient(#435c6d,#111c26)";
-
-        for(var e=0;e<clouds.length;e++){
-            clouds[e].style.display="block";
-        }
-
-        createRain();
-
-        return;
-    }
-
+function sceneKind(code){
+    if(code===0||code===1)return "clear";
+    if(code===2||code===3)return "cloud";
+    if(code===45||code===48)return "fog";
+    if((code>=71&&code<=77)||code===85||code===86)return "snow";
+    if(code>=95)return "storm";
+    if((code>=51&&code<=67)||(code>=80&&code<=82))return "rain";
+    return "cloud";
 }
-
-
-/* =====================================================
-   UI
-   ===================================================== */
-
+/* [sky top, sky middle, sky bottom, accent, card tint] */
+var SCENES={
+    "clear-day":["#1478cf","#4fb3f3","#a9dcff","#ffd84d","rgba(8,52,100,.42)"],
+    "clear-night":["#060b26","#142058","#2a3b86","#ffe08a","rgba(255,255,255,.09)"],
+    "cloud-day":["#4a7ba6","#86a9c6","#c3d5e4","#ffffff","rgba(20,48,76,.44)"],
+    "cloud-night":["#0f1a2e","#22345a","#374c78","#b9c8e8","rgba(255,255,255,.09)"],
+    "fog-day":["#7f93a3","#a5b5c2","#76899a","#e9f1f6","rgba(26,42,58,.48)"],
+    "fog-night":["#16202b","#2c3a48","#46566a","#c5d1db","rgba(255,255,255,.09)"],
+    "rain-day":["#35607f","#294a66","#13283a","#8fd0ff","rgba(6,22,38,.46)"],
+    "rain-night":["#0a1422","#15253a","#21354d","#7fb8e8","rgba(255,255,255,.08)"],
+    "snow-day":["#6d98c2","#a3c1dc","#5a7d9d","#ffffff","rgba(26,56,92,.44)"],
+    "snow-night":["#15233b","#2e4367","#496088","#dbe9ff","rgba(255,255,255,.09)"],
+    "storm-day":["#1b1e3c","#3a2f66","#19122f","#c9b6ff","rgba(10,8,28,.5)"],
+    "storm-night":["#0e0f21","#251f45","#140e27","#b9a5ff","rgba(255,255,255,.08)"]
+};
+function setBackground(code,isDay){
+    clearEffects();
+    var kind=sceneKind(code),key=kind+(isDay?"-day":"-night"),s=SCENES[key]||SCENES["clear-day"];
+    document.getElementById("background").style.background="linear-gradient(180deg,"+s[0]+" 0%,"+s[1]+" 55%,"+s[2]+" 100%)";
+    document.body.setAttribute("data-scene",key);
+    document.body.style.setProperty("--accent",s[3]);
+    document.body.style.setProperty("--card",s[4]);
+    var i,clouds=document.querySelectorAll(".cloud"),fogs=document.querySelectorAll(".fog");
+    if(kind==="clear"){
+        if(isDay){document.getElementById("sun").style.display="block";}
+        else{createStars();document.getElementById("moon").style.display="block";}
+    }else{
+        for(i=0;i<clouds.length;i++){clouds[i].style.display="block";}
+    }
+    if(kind==="fog"){for(i=0;i<fogs.length;i++){fogs[i].style.display="block";}}
+    if(kind==="rain"||kind==="storm"){createRain();}
+    if(kind==="snow"){createSnow();}
+    if(kind==="storm"){document.getElementById("flash").style.display="block";}
+}
 function showLoading(value){
 
     document.getElementById("loading")
@@ -2112,16 +2098,7 @@ document.getElementById("favoriteListButton")
         }
     );
 
-document.getElementById("defaultCityButton")
-    .addEventListener(
-        "click",
-        function(){
-            document.getElementById("provinces")
-                .scrollIntoView({
-                    behavior:"smooth"
-                });
-        }
-    );
+
 /* =====================================================
    START
    ===================================================== */
@@ -2132,6 +2109,67 @@ document.getElementById("searchInput").addEventListener("input",function(e){sear
     function fd(d){var p={};new Intl.DateTimeFormat("fa-IR-u-ca-persian",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).formatToParts(d).forEach(function(x){p[x.type]=x.value});return p.weekday+" "+p.day+" "+p.month+" "+p.year}
     function draw(){el.textContent=fd(new Date())}
     draw();setInterval(draw,60000);
+})();
+(function(){try{
+    var fl=JSON.parse(localStorage.getItem("weatherFavorites")||"[]").filter(function(f){return f&&f.province!=="هلند"&&f.province!=="بلژیک";});
+    localStorage.setItem("weatherFavorites",JSON.stringify(fl));
+    var dc=JSON.parse(localStorage.getItem("weatherDefaultCity")||"null");
+    if(dc&&(dc.province==="هلند"||dc.province==="بلژیک")){localStorage.removeItem("weatherDefaultCity");}
+}catch(e){}})();
+function isDefaultCity(){var d=getDefaultCity();return d.name===selectedCity.name&&d.province===selectedCity.province;}
+function updateDefaultButton(){
+    var bt=document.getElementById("setDefaultButton"),t=document.getElementById("setDefaultText");
+    if(!bt||!t){return;}
+    var on=isDefaultCity();
+    bt.classList.toggle("on",on);
+    t.textContent=on?"✓ شهر پیش‌فرض":"تنظیم پیش‌فرض";
+}
+function toast(msg){
+    var t=document.getElementById("toast");
+    t.textContent=msg;t.classList.add("show");
+    clearTimeout(toast.timer);
+    toast.timer=setTimeout(function(){t.classList.remove("show");},2300);
+}
+function setDefaultCity(city){saveDefaultCity(city);updateDefaultButton();toast("شهر پیش‌فرض: "+city.name+" ✓");}
+document.getElementById("setDefaultButton").addEventListener("click",function(){setDefaultCity(selectedCity);});
+(function(){
+    var sh=document.getElementById("defSheet"),inp=document.getElementById("defSearch"),list=document.getElementById("defList"),now=document.getElementById("defNow");
+    function nz(t){return String(t||"").replace(/[\u200c\u200f]/g," ").replace(/ي/g,"ی").replace(/ك/g,"ک").replace(/\s+/g," ").trim();}
+    function close(){sh.hidden=true;document.documentElement.style.overflow="";}
+    Object.keys(cities).sort(function(x,y){return x.localeCompare(y,"fa");}).forEach(function(pr){
+        var g=document.createElement("section");g.className="pk-group";
+        var h=document.createElement("h4");h.textContent=pr;g.appendChild(h);
+        cities[pr].forEach(function(c){
+            var bt=document.createElement("button");bt.type="button";bt.className="pk-item";
+            bt.textContent=c[0];bt.setAttribute("data-k",nz(c[0]+" "+pr));
+            bt.onclick=function(){
+                close();
+                var city={name:c[0],province:pr,lat:c[1],lon:c[2]};
+                setDefaultCity(city);
+                selectCity(city.name,city.province,city.lat,city.lon,false);
+            };
+            g.appendChild(bt);
+        });
+        list.appendChild(g);
+    });
+    function filt(){
+        var q=nz(inp.value);
+        [].forEach.call(list.querySelectorAll(".pk-group"),function(g){
+            var n=0;
+            [].forEach.call(g.querySelectorAll(".pk-item"),function(bt){var ok=!q||bt.getAttribute("data-k").indexOf(q)>=0;bt.hidden=!ok;if(ok){n++;}});
+            g.hidden=!n;
+        });
+    }
+    function open(){
+        var d=getDefaultCity();
+        now.textContent="شهر پیش‌فرض فعلی: "+d.name+" ("+d.province+")";
+        sh.hidden=false;document.documentElement.style.overflow="hidden";inp.value="";filt();
+        setTimeout(function(){inp.focus();},60);
+    }
+    document.getElementById("defaultCityButton").addEventListener("click",open);
+    inp.addEventListener("input",filt);
+    sh.addEventListener("click",function(e){if(e.target.closest("[data-close]")){close();}});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!sh.hidden){close();}});
 })();
 buildProvinces();
 renderFavorites();

@@ -214,6 +214,38 @@ body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,
 .pk-item:hover,.pk-item:active{background:#f0f6ff}
 .pk-item em{background:#ffd84d;color:#4a2f00;font-size:12px}
 .toast{background:#12233f;color:#fff;border-color:#12233f;font-size:15px}
+
+/* ===== v6: info chips inside the city box, 3-line title, table widths ===== */
+.hero-stats{flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.hs{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-radius:18px;border:1px solid rgba(255,255,255,.95);box-shadow:0 4px 12px rgba(40,80,140,.12)}
+.hs:last-child{grid-column:1/-1}
+.hs-t{font-size:15px;color:#3f5878}
+.hs-ic{font-size:20px}
+.hs b{font-size:31px;line-height:1.25;color:var(--mc)}
+.hs small{font-size:14px;color:#566b88}
+.hs-rp{--mc:#2f5de0;background:linear-gradient(160deg,#e6edff,#fff 75%)}
+.hs-hu{--mc:#0891b2;background:linear-gradient(160deg,#dff7ff,#fff 75%)}
+.hs-wi{--mc:#059669;background:linear-gradient(160deg,#dcf8ec,#fff 75%)}
+.hs-pr{--mc:#5b5bd6;background:linear-gradient(160deg,#e9e8ff,#fff 75%)}
+.hs-uv{--mc:#d97706;background:linear-gradient(160deg,#fff0cc,#fff 75%)}
+#forecastSection .panel-title{font-size:16px;line-height:1.6}
+#forecastSection .panel-title span{display:block}
+#forecastSection .panel-title .ft1,#forecastSection .panel-title .ft3{font-size:15px;color:#566b88;font-weight:normal}
+#forecastSection .panel-title .ft2{font-size:21px;color:#0f2748}
+.chart-wrap{height:280px}
+.wtable{table-layout:fixed;font-size:15px}
+.wtable th:nth-child(1){width:20%}
+.wtable th:nth-child(2){width:24%}
+.wtable th:nth-child(3),.wtable th:nth-child(4),.wtable th:nth-child(5),.wtable th:nth-child(6){width:14%}
+.wtable th,.wtable td{padding:9px 2px}
+.wtable td{white-space:normal}
+.wtable td:nth-child(3){min-width:0}
+.wtable td .wi{display:block;font-size:22px;line-height:1.15}
+.wtable td small.wt{font-size:12px;line-height:1.35;color:#566b88}
+.wtable td.rp{color:#2f5de0;font-weight:bold}
+.wtable td.mmv{color:#5b5bd6;font-weight:bold}
+.wtable thead th{font-size:13px;line-height:1.35}
+.wtable th:first-child,.wtable td:first-child{padding-right:9px}
 </style>
 </head>
 <body>
@@ -227,23 +259,22 @@ body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,
     <div class="selected-main"><span class="selected-kicker">آب‌وهوای شهر انتخاب‌شده</span><strong id="heroCity">تهران</strong><span id="heroDesc">در حال دریافت اطلاعات هوا...</span></div>
     <div class="selected-temperature" id="heroTemp">--°</div>
     <button id="pickBtn" class="pick-btn" type="button" aria-haspopup="dialog"><span class="pick-txt"><small id="pickSub">برای تغییر شهر بزنید</small><b id="pickName">تهران</b></span><span class="pick-arrow">▾</span></button>
+    <div class="hero-stats">
+      <div class="hs hs-rp"><span class="hs-t"><span class="hs-ic">☔</span> احتمال بارش</span><b id="rainProb">--٪</b><small>امروز</small></div>
+      <div class="hs hs-hu"><span class="hs-t"><span class="hs-ic">💧</span> رطوبت</span><b id="humidity">--٪</b><small>رطوبت نسبی هوا</small></div>
+      <div class="hs hs-wi"><span class="hs-t"><span class="hs-ic">💨</span> سرعت باد</span><b id="wind">--</b><small>کیلومتر بر ساعت</small></div>
+      <div class="hs hs-pr"><span class="hs-t"><span class="hs-ic">🌧️</span> بارش امروز</span><b id="rain">--</b><small>میلی‌متر</small></div>
+      <div class="hs hs-uv"><span class="hs-t"><span class="hs-ic">☀️</span> شاخص UV</span><b id="uv">--</b><small>بیشینهٔ امروز</small></div>
+    </div>
   </section>
 
   <section class="fav-section"><span class="fav-title">⭐ علاقه‌مندی‌ها</span><button id="defBtn" type="button">تنظیم به پیش‌فرض</button><button id="favBtn" type="button">☆ افزودن به علاقه‌مندی‌ها</button><div id="favRow"></div></section>
-
-  <section class="metrics">
-    <div class="metric"><div class="metric-head"><span class="metric-icon">💧</span> رطوبت</div><div class="metric-value" id="humidity">--%</div><small>رطوبت نسبی هوا</small></div>
-    <div class="metric"><div class="metric-head"><span class="metric-icon">💨</span> سرعت باد</div><div class="metric-value" id="wind">--</div><small>کیلومتر بر ساعت</small></div>
-    <div class="metric"><div class="metric-head"><span class="metric-icon">🌧️</span> بارش امروز</div><div class="metric-value" id="rain">--</div><small>میلی‌متر</small></div>
-    <div class="metric"><div class="metric-head"><span class="metric-icon">☀️</span> شاخص UV</div><div class="metric-value" id="uv">--</div><small>بیشینه امروز</small></div>
-  </section>
 
   <main class="map-main">
     <section class="map-section">
       <div class="map-heading"><div><h2 class="panel-title">نقشه زنده ایران</h2><div class="panel-sub">مرکز استان‌ها نمایش داده می‌شوند؛ با بزرگ‌نمایی شهرهای بیشتری ظاهر می‌شود. روی هر شهر بزنید تا جدول پیش‌بینی آن باز شود.</div></div><div class="map-tools"><input class="search" id="citySearch" placeholder="جست‌وجوی شهر..." aria-label="جست‌وجوی شهر"><button class="soft-button" id="resetMap">نمایش کل ایران</button></div></div>
       <div id="map" aria-label="نقشه تعاملی آب‌وهوای ایران"></div>
       <div class="map-legend"><span class="legend-item"><i class="legend-dot"></i> دمای زنده</span><span class="legend-item">☀️ صاف</span><span class="legend-item">⛅ نیمه‌ابری</span><span class="legend-item">🌧️ بارانی</span><span class="legend-item">❄️ برفی</span></div>
-      <div class="hint">داده‌های هواشناسی از Open-Meteo و نقشه از OpenStreetMap دریافت می‌شود.</div>
     </section>
   </main>
 
@@ -283,7 +314,7 @@ const toastShow=m=>{const t=document.getElementById("toast");t.textContent=m;t.c
 const map=L.map("map",{zoomControl:true,scrollWheelZoom:true}).setView([32.3,53.7],5);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:12,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
 map.zoomControl.setPosition("topright");
-const markers=new Map();let cityData=new Map();let selected=(()=>{try{const d=JSON.parse(localStorage.getItem("weatherDefaultCity")||"null");if(d&&CITIES.some(c=>c.name===d.name))return d.name}catch(e){}try{const s=localStorage.getItem("weatherIranSelectedCity");if(s&&CITIES.some(c=>c.name===s))return s}catch(e){}return "تهران"})();let forecastCache=new Map();
+const markers=new Map();let cityData=new Map();let selected=(()=>{try{const d=JSON.parse(localStorage.getItem("weatherDefaultCity")||"null");if(d&&d.province!=="هلند"&&d.province!=="بلژیک"&&!CITIES.some(c=>c.name===d.name)&&Number.isFinite(d.lat)&&Number.isFinite(d.lon))CITIES.push({name:d.name,lat:d.lat,lon:d.lon,prov:d.province||"",z:9,dyn:1});if(d&&CITIES.some(c=>c.name===d.name))return d.name}catch(e){}try{const s=localStorage.getItem("weatherIranSelectedCity");if(s&&CITIES.some(c=>c.name===s))return s}catch(e){}return "تهران"})();let forecastCache=new Map();
 function markerIcon(city,w){
  const info=weatherInfo(w?.current?.weather_code);const temp=w?.current?.temperature_2m;
  return L.divIcon({className:"",html:`<div class="weather-pin"><span class="pin-temp">${Number.isFinite(temp)?fmt(temp)+"°":"--°"}</span><span class="pin-symbol">${info[1]}</span><span class="pin-name">${city.name}</span></div>`,iconSize:[90,66],iconAnchor:[45,33]});
@@ -294,6 +325,7 @@ function popupHtml(city,w){
 }
 function updateMetrics(w){
  const c=w?.current||{},d=w?.daily||{};
+ const rp=document.getElementById("rainProb");if(rp)rp.textContent=Number.isFinite(d.precipitation_probability_max?.[0])?Number(d.precipitation_probability_max[0]).toLocaleString("fa-IR")+"٪":"--";
  document.getElementById("heroCity").textContent=selected;
  const pn=document.getElementById("pickName");if(pn)pn.textContent=selected;const c0=CITIES.find(x=>x.name===selected),ps=document.getElementById("pickSub");if(ps&&c0)ps.textContent="استان "+c0.prov+" · برای تغییر شهر بزنید";
  document.getElementById("heroTemp").textContent=Number.isFinite(c.temperature_2m)?fmt(c.temperature_2m)+"°C":"--°";
@@ -306,27 +338,38 @@ function updateMetrics(w){
 function drawChart(daily){
  const canvas=document.getElementById("tempChart");if(!canvas||!daily?.temperature_2m_max)return;
  const ctx=canvas.getContext("2d"),rect=canvas.getBoundingClientRect(),ratio=window.devicePixelRatio||1;
- canvas.width=Math.max(300,rect.width*ratio);canvas.height=Math.max(130,rect.height*ratio);ctx.scale(ratio,ratio);
- const W=canvas.width/ratio,H=canvas.height/ratio,pad={l:20,r:20,t:18,b:25},n=Math.min(14,daily.time.length);
- const vals=[...daily.temperature_2m_max.slice(0,n),...daily.temperature_2m_min.slice(0,n)].filter(Number.isFinite);
- if(!vals.length)return;let min=Math.min(...vals)-3,max=Math.max(...vals)+3;if(max===min)max=min+1;
- const x=i=>pad.l+(W-pad.l-pad.r)*(n===1?0.5:i/(n-1)),y=v=>pad.t+(H-pad.t-pad.b)*(1-(v-min)/(max-min));
- ctx.strokeStyle="rgba(60,100,160,.16)";ctx.lineWidth=1;
- for(let j=0;j<4;j++){let yy=pad.t+(H-pad.t-pad.b)*j/3;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke()}
- function line(key,color){ctx.beginPath();daily[key].slice(0,n).forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineJoin="round";ctx.stroke();daily[key].slice(0,n).forEach((v,i)=>{ctx.beginPath();ctx.arc(x(i),y(v),3.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()})}
- line("temperature_2m_max","#f97316");line("temperature_2m_min","#0ea5e9");
- ctx.fillStyle="#4a6180";ctx.font="13px Tahoma";ctx.textAlign="center";
- [0,2,4,6,8,10,12].filter(i=>i<n).forEach(i=>ctx.fillText(new Intl.DateTimeFormat("fa-IR",{day:"numeric"}).format(new Date(daily.time[i]+"T12:00:00")),x(i),H-5));
+ canvas.width=Math.max(300,rect.width*ratio);canvas.height=Math.max(200,rect.height*ratio);ctx.scale(ratio,ratio);
+ const W=canvas.width/ratio,H=canvas.height/ratio,pad={l:48,r:14,t:28,b:50},n=Math.min(14,daily.time.length);
+ const avg=[];for(let i=0;i<n;i++){const v=(Number(daily.temperature_2m_max[i])+Number(daily.temperature_2m_min[i]))/2;if(Number.isFinite(v))avg.push(v)}
+ if(!avg.length)return;
+ const lo=Math.min(...avg),hi=Math.max(...avg),span=hi-lo,step=span>22?5:span>9?2:1;
+ const min=Math.floor((lo-1)/step)*step,max=Math.ceil((hi+1)/step)*step;
+ const x=i=>pad.l+(W-pad.l-pad.r)*(avg.length===1?.5:i/(avg.length-1)),y=v=>pad.t+(H-pad.t-pad.b)*(1-(v-min)/(max-min));
+ const fa=new Intl.NumberFormat("fa-IR");
+ ctx.font="12px Tahoma";ctx.textAlign="right";ctx.textBaseline="middle";ctx.direction="ltr";
+ for(let v=min;v<=max;v+=step){const yy=y(v);ctx.strokeStyle=v===0?"rgba(40,90,170,.5)":"rgba(60,100,160,.14)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke();ctx.fillStyle="#4a6180";ctx.fillText(fa.format(v)+"°",pad.l-7,yy)}
+ ctx.direction="inherit";
+ ctx.strokeStyle="#7d93b2";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad.l,pad.t-8);ctx.lineTo(pad.l,H-pad.b);ctx.lineTo(W-pad.r,H-pad.b);ctx.stroke();
+ const grad=ctx.createLinearGradient(0,pad.t,0,H-pad.b);grad.addColorStop(0,"rgba(249,115,22,.30)");grad.addColorStop(1,"rgba(249,115,22,.02)");
+ ctx.beginPath();avg.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.lineTo(x(avg.length-1),H-pad.b);ctx.lineTo(x(0),H-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+ ctx.beginPath();avg.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.strokeStyle="#f97316";ctx.lineWidth=3;ctx.lineJoin="round";ctx.stroke();
+ ctx.textAlign="center";
+ avg.forEach((v,i)=>{ctx.beginPath();ctx.arc(x(i),y(v),i===0?5.5:3.5,0,Math.PI*2);ctx.fillStyle=i===0?"#fff":"#f97316";ctx.fill();if(i===0){ctx.lineWidth=3;ctx.strokeStyle="#f97316";ctx.stroke()}
+  ctx.fillStyle="#9a3d05";ctx.font="bold 11px Tahoma";ctx.textBaseline="alphabetic";ctx.fillText(fa.format(Math.round(v)),x(i),y(v)-11)});
+ ctx.fillStyle="#4a6180";ctx.font="12px Tahoma";ctx.textBaseline="alphabetic";
+ for(let i=0;i<avg.length;i+=2){const dt=new Date(daily.time[i]+"T12:00:00");ctx.fillText(i===0?"امروز":new Intl.DateTimeFormat("fa-IR",{day:"numeric",month:"short"}).format(dt),x(i),H-pad.b+18)}
+ ctx.font="bold 12px Tahoma";ctx.fillStyle="#2d4666";ctx.fillText("تاریخ (روز)",pad.l+(W-pad.l-pad.r)/2,H-7);
+ ctx.save();ctx.translate(13,pad.t+(H-pad.t-pad.b)/2);ctx.rotate(-Math.PI/2);ctx.fillText("میانگین دما (سانتی‌گراد)",0,0);ctx.restore();
 }
 function renderForecast(city,w){
  const root=document.getElementById("forecastContent"),d=w?.daily,c=w?.current;
  const heading=document.querySelector("#forecastSection .panel-title");
- if(heading)heading.textContent=`پیش‌بینی ۱۴ روزه ${city.name}${city.prov?" · استان "+city.prov:""}`;
+ if(heading)(function(){heading.innerHTML="";[["ft1","پیش‌بینی ۱۴ روزه"],["ft2",city.name],["ft3",city.prov?"استان "+city.prov:""]].forEach(function(p){if(!p[1])return;var s=document.createElement("span");s.className=p[0];s.textContent=p[1];heading.appendChild(s)})})();
  if(!d||!c){root.innerHTML='<div class="error">پیش‌بینی این شهر دریافت نشد. اتصال اینترنت را بررسی و دوباره تلاش کنید.</div>';return}
  const inf=weatherInfo(c.weather_code);
  const cards=d.time.map((date,i)=>`<div class="day-card"><div class="day-name">${i===0?"امروز":i===1?"فردا":faDate(date).split(" ")[0]}</div><div class="day-date">${faDate(date)}</div><div class="day-icon">${weatherInfo(d.weather_code[i])[1]}</div><div class="day-rain">💧 ${Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR")}٪</div><div class="day-high">${fmt(d.temperature_2m_max[i])}°</div><div class="day-low">${fmt(d.temperature_2m_min[i])}°</div></div>`).join("");
- const rows=d.time.map((date,i)=>{const dt=new Date(date+"T12:00:00"),wi=weatherInfo(d.weather_code[i]),p=Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR"),mm=Number(d.precipitation_sum?.[i]||0).toLocaleString("fa-IR");return `<tr class="${i===0?'today ':''}${tcls(Number(d.temperature_2m_max[i]))}"><td><b>${i===0?"امروز":i===1?"فردا":faWeekday(dt)}</b><small>${faMonthDay(dt)}</small></td><td><span class="wi">${wi[1]}</span> ${wi[0]}</td><td class="hi">${fmt(d.temperature_2m_max[i])}°</td><td class="lo">${fmt(d.temperature_2m_min[i])}°</td><td><b>${p}٪</b><small>${mm} mm</small></td></tr>`}).join("");
- root.innerHTML=`<div class="forecast-summary"><div class="forecast-weather-icon">${inf[1]}</div><div><div class="forecast-city">${city.name}</div><div class="forecast-meta">${inf[0]}</div><div class="forecast-meta">بیشینه امروز ${fmt(d.temperature_2m_max[0])}° · کمینه ${fmt(d.temperature_2m_min[0])}°</div></div><div class="forecast-current"><strong>${fmt(c.temperature_2m)}°C</strong><span>دمای فعلی</span></div></div><div class="section-label">روند دما در ۱۴ روز</div><div class="chart-wrap"><canvas id="tempChart" aria-label="نمودار دمای ۱۴ روز آینده"></canvas></div><div class="map-legend"><span class="legend-item"><i class="legend-dot" style="background:#ffbd79"></i> بیشینه</span><span class="legend-item"><i class="legend-dot" style="background:#63d8f2"></i> کمینه</span></div><div class="section-label">جدول پیش‌بینی روزانه</div><div class="table-wrap"><table class="wtable"><thead><tr><th>روز</th><th>وضعیت</th><th>بیشینه</th><th>کمینه</th><th>احتمال و<br>مقدار بارش</th></tr></thead><tbody>${rows}</tbody></table></div><div class="section-label">جزئیات فعلی</div><div class="detail-grid"><div class="detail"><span>رطوبت نسبی</span><strong>${c.relative_humidity_2m??"--"}٪</strong></div><div class="detail"><span>سرعت باد</span><strong>${fmt(c.wind_speed_10m)} کیلومتر/ساعت</strong></div><div class="detail"><span>بارش امروز</span><strong>${Number(d.precipitation_sum?.[0]||0).toLocaleString("fa-IR")} میلی‌متر</strong></div><div class="detail"><span>بیشینه UV</span><strong>${fmt(d.uv_index_max?.[0])}</strong></div></div>`;
+ const rows=d.time.map((date,i)=>{const dt=new Date(date+"T12:00:00"),wi=weatherInfo(d.weather_code[i]),p=Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR"),mm=Number(d.precipitation_sum?.[i]||0).toLocaleString("fa-IR");return `<tr class="${i===0?'today ':''}${tcls(Number(d.temperature_2m_max[i]))}"><td><b>${i===0?"امروز":i===1?"فردا":faWeekday(dt)}</b><small>${faMonthDay(dt)}</small></td><td><span class="wi">${wi[1]}</span><small class="wt">${wi[0]}</small></td><td class="hi">${fmt(d.temperature_2m_max[i])}°</td><td class="lo">${fmt(d.temperature_2m_min[i])}°</td><td class="rp">${p}٪</td><td class="mmv">${mm}</td></tr>`}).join("");
+ root.innerHTML=`<div class="forecast-summary"><div class="forecast-weather-icon">${inf[1]}</div><div><div class="forecast-city">${city.name}</div><div class="forecast-meta">${inf[0]}</div><div class="forecast-meta">بیشینه امروز ${fmt(d.temperature_2m_max[0])}° · کمینه ${fmt(d.temperature_2m_min[0])}°</div></div><div class="forecast-current"><strong>${fmt(c.temperature_2m)}°C</strong><span>دمای فعلی</span></div></div><div class="section-label">روند میانگین دما در ۱۴ روز آینده</div><div class="chart-wrap"><canvas id="tempChart" aria-label="نمودار میانگین دما"></canvas></div><div class="section-label">جدول پیش‌بینی روزانه</div><div class="table-wrap"><table class="wtable"><thead><tr><th>روز</th><th>وضعیت</th><th>بیشینه</th><th>کمینه</th><th>احتمال<br>بارش</th><th>بارش<br>(mm)</th></tr></thead><tbody>${rows}</tbody></table></div><div class="section-label">جزئیات فعلی</div><div class="detail-grid"><div class="detail"><span>رطوبت نسبی</span><strong>${c.relative_humidity_2m??"--"}٪</strong></div><div class="detail"><span>سرعت باد</span><strong>${fmt(c.wind_speed_10m)} کیلومتر/ساعت</strong></div><div class="detail"><span>بارش امروز</span><strong>${Number(d.precipitation_sum?.[0]||0).toLocaleString("fa-IR")} میلی‌متر</strong></div><div class="detail"><span>بیشینه UV</span><strong>${fmt(d.uv_index_max?.[0])}</strong></div></div>`;
  requestAnimationFrame(()=>drawChart(d));
 }
 const pending=new Set();
@@ -377,7 +420,7 @@ function favRender(){defRender();
  const l=favGet(),c=CITIES.find(x=>x.name===selected),row=document.getElementById("favRow"),btn=document.getElementById("favBtn");
  if(c){const on=favIdx(l,c)>=0;btn.textContent=(on?"★ حذف ":"☆ افزودن ")+c.name+(on?" از":" به")+" علاقه‌مندی‌ها"}
  row.innerHTML=l.length?"":'<span class="fav-empty">هنوز شهری اضافه نشده است</span>';
- l.forEach(f=>{const b=document.createElement("button");b.type="button";b.className="fav-chip"+(f.name===selected?" on":"");b.textContent=f.name;b.onclick=()=>{const c2=CITIES.find(x=>x.name===f.name);if(c2){map.setView([c2.lat,c2.lon],Math.max(map.getZoom(),c2.z));selectCity(c2.name)}};row.appendChild(b)});
+ l.forEach(f=>{const b=document.createElement("button");b.type="button";b.className="fav-chip"+(f.name===selected?" on":"");b.textContent=f.name;b.onclick=()=>{let c2=CITIES.find(x=>x.name===f.name);if(!c2&&Number.isFinite(f.lat)&&Number.isFinite(f.lon)){c2={name:f.name,lat:f.lat,lon:f.lon,prov:f.province||"",z:9,dyn:1};CITIES.push(c2)}if(c2){map.setView([c2.lat,c2.lon],Math.max(map.getZoom(),c2.z));selectCity(c2.name)}};row.appendChild(b)});
 }
 document.getElementById("favBtn").addEventListener("click",()=>{const c=CITIES.find(x=>x.name===selected);if(!c)return;const l=favGet(),i=favIdx(l,c);if(i>=0)l.splice(i,1);else l.push({name:c.name,province:c.prov,lat:c.lat,lon:c.lon});favSet(l);favRender()});
 const defGet=()=>{try{return JSON.parse(localStorage.getItem("weatherDefaultCity")||"null")}catch(e){return null}};
@@ -407,7 +450,7 @@ window.selectCity=async function(name,doScroll=true){
  function filt(){const q=nz(inp.value);list.querySelectorAll(".pk-group").forEach(g=>{let n=0;g.querySelectorAll(".pk-item").forEach(b=>{const ok=!q||b.dataset.k.includes(q);b.hidden=!ok;if(ok)n++});g.hidden=!n})}
  function close(){sh.hidden=true;document.documentElement.style.overflow=""}
  function open(){favs.innerHTML="";favGet().forEach(f=>{const b=document.createElement("button");b.type="button";b.className="fav-chip";b.textContent=f.name;b.dataset.n=f.name;b.className+=" pk-fav";favs.appendChild(b)});sh.hidden=false;document.documentElement.style.overflow="hidden";inp.value="";filt();setTimeout(()=>inp.focus(),60)}
- function pick(name){const c=CITIES.find(x=>x.name===name);if(!c)return;close();map.setView([c.lat,c.lon],Math.max(map.getZoom(),c.z>0?c.z-1:5));selectCity(c.name)}
+ function pick(name){let c=CITIES.find(x=>x.name===name);if(!c){const f=favGet().find(x=>x.name===name);if(f&&Number.isFinite(f.lat)&&Number.isFinite(f.lon)){c={name:f.name,lat:f.lat,lon:f.lon,prov:f.province||"",z:9,dyn:1};CITIES.push(c)}}if(!c)return;close();map.setView([c.lat,c.lon],Math.max(map.getZoom(),c.z>0?c.z-1:5));selectCity(c.name)}
  btn.addEventListener("click",open);inp.addEventListener("input",filt);
  sh.addEventListener("click",e=>{if(e.target.closest("[data-close]")){close();return}const b=e.target.closest(".pk-item,.pk-fav");if(b)pick(b.dataset.n)});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!sh.hidden)close()});
@@ -423,6 +466,36 @@ document.getElementById("refreshBtn").addEventListener("click",loadWeather);
 document.getElementById("resetMap").addEventListener("click",()=>map.fitBounds([[25,44],[40.5,64.5]],{padding:[20,20]}));
 map.fitBounds([[25,44],[40.5,64.5]],{padding:[18,18]});
 map.on("moveend",syncMarkers);syncMarkers();
+/* extra towns from OpenStreetMap for the visible area: names only, weather loads on click */
+const OSM_URLS=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter"];
+const osmDone=new Set(),osmSeen=new Set();let osmTimer=0;
+const nzn=t=>String(t||"").replace(/[\u200c\u200f\u064b-\u0652\s]/g,"").replace(/ي/g,"ی").replace(/ك/g,"ک");
+const osmNames=new Set(CITIES.map(c=>nzn(c.name)));
+const osmZ=p=>p==="city"?8:p==="town"?9:11;
+function addOsm(els){
+ let added=false;
+ els.forEach(e=>{
+  const t=e.tags||{},name=t["name:fa"]||t.name;
+  if(!name||!/[\u0600-\u06FF]/.test(name)||!Number.isFinite(e.lat)||!Number.isFinite(e.lon))return;
+  const k=nzn(name);if(osmNames.has(k))return;
+  if(CITIES.some(c=>Math.abs(c.lat-e.lat)<.04&&Math.abs(c.lon-e.lon)<.04))return;
+  osmNames.add(k);CITIES.push({name,lat:e.lat,lon:e.lon,prov:"",z:osmZ(t.place),dyn:1});added=true;
+ });
+ if(added)syncMarkers();
+}
+async function loadOsmPlaces(){
+ const z=map.getZoom();if(z<7)return;
+ const b=map.getBounds().pad(.12),kinds=z>=10?"city|town|village":"city|town";
+ const key=[kinds,Math.floor(b.getSouth()*3),Math.floor(b.getWest()*3),Math.floor(b.getNorth()*3),Math.floor(b.getEast()*3)].join("_");
+ if(osmDone.has(key))return;osmDone.add(key);
+ const q='[out:json][timeout:15];area["ISO3166-1"="IR"][admin_level=2]->.ir;node(area.ir)["place"~"^('+kinds+')$"]('+[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()].map(v=>v.toFixed(3)).join(",")+');out 300;';
+ for(const u of OSM_URLS){
+  try{const r=await fetch(u+"?data="+encodeURIComponent(q));if(!r.ok)continue;const j=await r.json();addOsm(j.elements||[]);return}catch(e){}
+ }
+ osmDone.delete(key);
+}
+map.on("moveend",()=>{clearTimeout(osmTimer);osmTimer=setTimeout(loadOsmPlaces,500)});
+
 window.addEventListener("resize",()=>{const w=cityData.get(selected);if(w?.daily)drawChart(w.daily)});
 loadWeather();
 </script>

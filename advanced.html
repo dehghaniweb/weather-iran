@@ -218,7 +218,6 @@ body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,
 /* ===== v6: info chips inside the city box, 3-line title, table widths ===== */
 .hero-stats{flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
 .hs{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-radius:18px;border:1px solid rgba(255,255,255,.95);box-shadow:0 4px 12px rgba(40,80,140,.12)}
-.hs:last-child{grid-column:1/-1}
 .hs-t{font-size:15px;color:#3f5878}
 .hs-ic{font-size:20px}
 .hs b{font-size:31px;line-height:1.25;color:var(--mc)}
@@ -246,13 +245,31 @@ body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,
 .wtable td.mmv{color:#5b5bd6;font-weight:bold}
 .wtable thead th{font-size:13px;line-height:1.35}
 .wtable th:first-child,.wtable td:first-child{padding-right:9px}
+
+/* ===== v7 ===== */
+.map-section{padding:0 2px}
+.map-heading{padding:0 6px}
+#map{width:calc(100% - 28px);margin:0 auto 8px;height:clamp(360px,58vh,620px);border-radius:20px}
+.map-tools{align-items:flex-start}
+.search-box{position:relative;flex:1 1 220px;min-width:0}
+.search-box .search{width:100%}
+.search-msg{margin-top:6px;padding:8px 12px;border-radius:12px;font-size:15px;background:#ffe9ec;color:#a4243b;border:1px solid #f6c3cb}
+.search-msg.ok{background:#e4f8ee;color:#0b6b4a;border-color:#bfe9d4}
+.search-msg[hidden],.search-list[hidden]{display:none}
+.search-list{position:absolute;z-index:1500;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #c4d9fb;border-radius:14px;box-shadow:0 14px 34px rgba(30,70,140,.28);overflow:hidden;max-height:280px;overflow-y:auto}
+.search-list button{display:flex;justify-content:space-between;align-items:center;width:100%;padding:12px 14px;border:0;border-bottom:1px solid #e5eefa;background:#fff;color:#12233f;font:inherit;font-size:17px;text-align:right;cursor:pointer}
+.search-list button small{font-size:13px;color:#566b88}
+.search-list button:active,.search-list button:hover{background:#f0f6ff}
+.detail:last-child:nth-child(odd){grid-column:1/-1}
+.footer{text-align:center}
+.footer div{margin:2px 0}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
     <div class="brand"><div class="brand-mark"><img src="icon/icon-192.png" alt=""></div><div><h1>هواشناسی ایران</h1><p>نقشه زنده آب‌وهوا · پیش‌بینی ۱۴ روزه</p></div></div>
-    <div class="top-actions"><span class="date-pill" id="todayPill"></span><span class="live-pill"><i class="live-dot"></i>اطلاعات زنده</span><button class="soft-button" id="refreshBtn">↻ بروزرسانی</button></div>
+    <div class="top-actions"><span class="date-pill" id="todayPill"></span><span class="live-pill"><i class="live-dot"></i>اطلاعات زنده</span></div>
   </header>
 
   <section class="selected-strip">
@@ -264,7 +281,6 @@ body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,
       <div class="hs hs-hu"><span class="hs-t"><span class="hs-ic">💧</span> رطوبت</span><b id="humidity">--٪</b><small>رطوبت نسبی هوا</small></div>
       <div class="hs hs-wi"><span class="hs-t"><span class="hs-ic">💨</span> سرعت باد</span><b id="wind">--</b><small>کیلومتر بر ساعت</small></div>
       <div class="hs hs-pr"><span class="hs-t"><span class="hs-ic">🌧️</span> بارش امروز</span><b id="rain">--</b><small>میلی‌متر</small></div>
-      <div class="hs hs-uv"><span class="hs-t"><span class="hs-ic">☀️</span> شاخص UV</span><b id="uv">--</b><small>بیشینهٔ امروز</small></div>
     </div>
   </section>
 
@@ -272,17 +288,17 @@ body{font-size:16px;color:#12233f;background:radial-gradient(ellipse at 92% -6%,
 
   <main class="map-main">
     <section class="map-section">
-      <div class="map-heading"><div><h2 class="panel-title">نقشه زنده ایران</h2><div class="panel-sub">مرکز استان‌ها نمایش داده می‌شوند؛ با بزرگ‌نمایی شهرهای بیشتری ظاهر می‌شود. روی هر شهر بزنید تا جدول پیش‌بینی آن باز شود.</div></div><div class="map-tools"><input class="search" id="citySearch" placeholder="جست‌وجوی شهر..." aria-label="جست‌وجوی شهر"><button class="soft-button" id="resetMap">نمایش کل ایران</button></div></div>
+      <div class="map-heading"><div><h2 class="panel-title">نقشه زنده ایران</h2></div><div class="map-tools"><div class="search-box"><input class="search" id="citySearch" type="search" placeholder="جست‌وجوی شهر..." aria-label="جست‌وجوی شهر" autocomplete="off" enterkeyhint="search"><div id="searchMsg" class="search-msg" hidden></div><div id="searchList" class="search-list" hidden></div></div><button class="soft-button" id="resetMap">نمایش کل ایران</button></div></div>
       <div id="map" aria-label="نقشه تعاملی آب‌وهوای ایران"></div>
       <div class="map-legend"><span class="legend-item"><i class="legend-dot"></i> دمای زنده</span><span class="legend-item">☀️ صاف</span><span class="legend-item">⛅ نیمه‌ابری</span><span class="legend-item">🌧️ بارانی</span><span class="legend-item">❄️ برفی</span></div>
     </section>
   </main>
 
   <section class="panel forecast-panel" id="forecastSection">
-    <div class="panel-head"><div><h2 class="panel-title">پیش‌بینی ۱۴ روز آینده</h2><div class="panel-sub">پیش‌بینی روزانه برای شهر انتخاب‌شده</div></div><span class="live-pill" id="updatedAt">در حال بروزرسانی</span></div>
+    <div class="panel-head"><div><h2 class="panel-title">پیش‌بینی ۱۴ روز آینده</h2></div><span class="live-pill" id="updatedAt">در حال بروزرسانی</span></div>
     <div id="forecastContent"><div class="loading">در حال بارگذاری پیش‌بینی…</div></div>
   </section>
-  <footer class="footer">این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است. (علی و امیرآرشا دهقانی)</footer>
+  <footer class="footer"><div>این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است.</div><div>(علی و امیرآرشا دهقانی)</div></footer>
 </div>
 <div id="pickSheet" class="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-box" role="dialog" aria-modal="true" aria-label="انتخاب شهر"><div class="sheet-head"><b>انتخاب شهر</b><button type="button" class="sheet-x" data-close aria-label="بستن">✕</button></div><input id="pickSearch" class="sheet-search" type="search" placeholder="🔍 جست‌وجوی شهر یا استان…" autocomplete="off"><div id="pickFavs" class="sheet-favs"></div><div id="pickList" class="sheet-list"></div></div></div>
 <div id="toast" class="toast"></div>
@@ -333,7 +349,6 @@ function updateMetrics(w){
  document.getElementById("humidity").textContent=(c.relative_humidity_2m??"--")+"٪";
  document.getElementById("wind").textContent=fmt(c.wind_speed_10m);
  document.getElementById("rain").textContent=Number.isFinite(d.precipitation_sum?.[0])?Number(d.precipitation_sum[0]).toLocaleString("fa-IR")+"":"--";
- document.getElementById("uv").textContent=fmt(d.uv_index_max?.[0]);
 }
 function drawChart(daily){
  const canvas=document.getElementById("tempChart");if(!canvas||!daily?.temperature_2m_max)return;
@@ -369,7 +384,7 @@ function renderForecast(city,w){
  const inf=weatherInfo(c.weather_code);
  const cards=d.time.map((date,i)=>`<div class="day-card"><div class="day-name">${i===0?"امروز":i===1?"فردا":faDate(date).split(" ")[0]}</div><div class="day-date">${faDate(date)}</div><div class="day-icon">${weatherInfo(d.weather_code[i])[1]}</div><div class="day-rain">💧 ${Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR")}٪</div><div class="day-high">${fmt(d.temperature_2m_max[i])}°</div><div class="day-low">${fmt(d.temperature_2m_min[i])}°</div></div>`).join("");
  const rows=d.time.map((date,i)=>{const dt=new Date(date+"T12:00:00"),wi=weatherInfo(d.weather_code[i]),p=Number(d.precipitation_probability_max?.[i]||0).toLocaleString("fa-IR"),mm=Number(d.precipitation_sum?.[i]||0).toLocaleString("fa-IR");return `<tr class="${i===0?'today ':''}${tcls(Number(d.temperature_2m_max[i]))}"><td><b>${i===0?"امروز":i===1?"فردا":faWeekday(dt)}</b><small>${faMonthDay(dt)}</small></td><td><span class="wi">${wi[1]}</span><small class="wt">${wi[0]}</small></td><td class="hi">${fmt(d.temperature_2m_max[i])}°</td><td class="lo">${fmt(d.temperature_2m_min[i])}°</td><td class="rp">${p}٪</td><td class="mmv">${mm}</td></tr>`}).join("");
- root.innerHTML=`<div class="forecast-summary"><div class="forecast-weather-icon">${inf[1]}</div><div><div class="forecast-city">${city.name}</div><div class="forecast-meta">${inf[0]}</div><div class="forecast-meta">بیشینه امروز ${fmt(d.temperature_2m_max[0])}° · کمینه ${fmt(d.temperature_2m_min[0])}°</div></div><div class="forecast-current"><strong>${fmt(c.temperature_2m)}°C</strong><span>دمای فعلی</span></div></div><div class="section-label">روند میانگین دما در ۱۴ روز آینده</div><div class="chart-wrap"><canvas id="tempChart" aria-label="نمودار میانگین دما"></canvas></div><div class="section-label">جدول پیش‌بینی روزانه</div><div class="table-wrap"><table class="wtable"><thead><tr><th>روز</th><th>وضعیت</th><th>بیشینه</th><th>کمینه</th><th>احتمال<br>بارش</th><th>بارش<br>(mm)</th></tr></thead><tbody>${rows}</tbody></table></div><div class="section-label">جزئیات فعلی</div><div class="detail-grid"><div class="detail"><span>رطوبت نسبی</span><strong>${c.relative_humidity_2m??"--"}٪</strong></div><div class="detail"><span>سرعت باد</span><strong>${fmt(c.wind_speed_10m)} کیلومتر/ساعت</strong></div><div class="detail"><span>بارش امروز</span><strong>${Number(d.precipitation_sum?.[0]||0).toLocaleString("fa-IR")} میلی‌متر</strong></div><div class="detail"><span>بیشینه UV</span><strong>${fmt(d.uv_index_max?.[0])}</strong></div></div>`;
+ root.innerHTML=`<div class="forecast-summary"><div class="forecast-weather-icon">${inf[1]}</div><div><div class="forecast-city">${city.name}</div><div class="forecast-meta">${inf[0]}</div><div class="forecast-meta">بیشینه امروز ${fmt(d.temperature_2m_max[0])}° · کمینه ${fmt(d.temperature_2m_min[0])}°</div></div><div class="forecast-current"><strong>${fmt(c.temperature_2m)}°C</strong><span>دمای فعلی</span></div></div><div class="section-label">روند میانگین دما در ۱۴ روز آینده</div><div class="chart-wrap"><canvas id="tempChart" aria-label="نمودار میانگین دما"></canvas></div><div class="section-label">جدول پیش‌بینی روزانه</div><div class="table-wrap"><table class="wtable"><thead><tr><th>روز</th><th>وضعیت</th><th>بیشینه</th><th>کمینه</th><th>احتمال<br>بارش</th><th>بارش<br>(mm)</th></tr></thead><tbody>${rows}</tbody></table></div><div class="section-label">جزئیات فعلی</div><div class="detail-grid"><div class="detail"><span>رطوبت نسبی</span><strong>${c.relative_humidity_2m??"--"}٪</strong></div><div class="detail"><span>سرعت باد</span><strong>${fmt(c.wind_speed_10m)} کیلومتر/ساعت</strong></div><div class="detail"><span>بارش امروز</span><strong>${Number(d.precipitation_sum?.[0]||0).toLocaleString("fa-IR")} میلی‌متر</strong></div></div>`;
  requestAnimationFrame(()=>drawChart(d));
 }
 const pending=new Set();
@@ -391,7 +406,7 @@ async function fetchChunk(list){
   const p=new URLSearchParams();
   list.forEach(c=>{p.append("latitude",c.lat);p.append("longitude",c.lon)});
   p.set("current","temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day");
-  p.set("daily","weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max,sunrise,sunset");
+  p.set("daily","weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,sunrise,sunset");
   p.set("forecast_days","14");p.set("temperature_unit","celsius");p.set("wind_speed_unit","kmh");p.set("timezone","auto");
   const r=await fetch("https://api.open-meteo.com/v1/forecast?"+p.toString());
   if(!r.ok)throw new Error("HTTP "+r.status);
@@ -401,6 +416,7 @@ async function fetchChunk(list){
   const city=CITIES.find(x=>x.name===selected),w=cityData.get(selected);
   if(city&&w){updateMetrics(w);skyApply(w);renderForecast(city,w)}
   stamp("آخرین بروزرسانی: "+new Intl.DateTimeFormat("fa-IR",{hour:"2-digit",minute:"2-digit"}).format(new Date()));
+  window.__wxAt=Date.now();
  }catch(err){
   stamp("خطا در دریافت داده");
   if(!cityData.get(selected))document.getElementById("forecastContent").innerHTML='<div class="error">برای نمایش نقشه و پیش‌بینی زنده به اینترنت نیاز است.</div>';
@@ -456,16 +472,60 @@ window.selectCity=async function(name,doScroll=true){
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!sh.hidden)close()});
  favRender();
 })();
-document.getElementById("citySearch").addEventListener("input",e=>{
- const q=e.target.value.trim();
- if(!q){map.fitBounds([[25,44],[40.5,64.5]],{padding:[18,18]});return}
- const found=CITIES.find(c=>c.name===q)||CITIES.find(c=>c.name.startsWith(q));
- if(found){map.setView([found.lat,found.lon],Math.max(8,found.z));selectCity(found.name,false)}
-});
-document.getElementById("refreshBtn").addEventListener("click",loadWeather);
+(function(){
+ const inp=document.getElementById("citySearch"),msg=document.getElementById("searchMsg"),list=document.getElementById("searchList");
+ const nz=t=>String(t||"").replace(/[\u200c\u200f\u064b-\u0652\s]/g,"").replace(/ي/g,"ی").replace(/ك/g,"ک").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+ let seq=0,timer=0;
+ const say=(t,ok)=>{msg.textContent=t||"";msg.className="search-msg"+(ok?" ok":"");msg.hidden=!t};
+ const closeList=()=>{list.hidden=true;list.innerHTML=""};
+ const local=q=>{const n=nz(q);if(!n)return[];const ex=CITIES.filter(c=>nz(c.name)===n),st=CITIES.filter(c=>nz(c.name).startsWith(n)&&!ex.includes(c)),inc=CITIES.filter(c=>nz(c.name).includes(n)&&!ex.includes(c)&&!st.includes(c));return ex.concat(st,inc).slice(0,8)};
+ function go(c){
+  const dup=CITIES.find(x=>nz(x.name)===nz(c.name)&&Math.abs(x.lat-c.lat)<.3&&Math.abs(x.lon-c.lon)<.3);
+  if(dup)c=dup;else CITIES.push(c);
+  closeList();say("");inp.blur();
+  map.setView([c.lat,c.lon],11);syncMarkers();selectCity(c.name,false);
+ }
+ function showList(items){
+  list.innerHTML="";
+  items.forEach(c=>{const b=document.createElement("button");b.type="button";b.innerHTML="<span></span><small></small>";b.firstChild.textContent=c.name;b.lastChild.textContent=c.prov?"استان "+c.prov:"";b.onclick=()=>go(c);list.appendChild(b)});
+  list.hidden=!items.length;
+ }
+ async function online(q,now){
+  const my=++seq;
+  say("در حال جست‌وجو…",true);
+  try{
+   const r=await fetch("https://geocoding-api.open-meteo.com/v1/search?name="+encodeURIComponent(q.trim())+"&count=6&language=fa&countryCode=IR&format=json");
+   if(!r.ok)throw new Error("HTTP "+r.status);
+   const j=await r.json();if(my!==seq)return;
+   const res=(j.results||[]).filter(x=>x.country_code==="IR"&&Number.isFinite(x.latitude)).map(x=>({name:x.name,lat:x.latitude,lon:x.longitude,prov:x.admin1||"",z:9,dyn:1}));
+   if(!res.length){closeList();say("شهری با این نام پیدا نشد. نام را دقیق‌تر بنویسید.");return}
+   say("");
+   if(res.length===1||now)go(res[0]);else showList(res);
+  }catch(e){if(my!==seq)return;closeList();say("جست‌وجو انجام نشد؛ اتصال اینترنت را بررسی کنید.")}
+ }
+ inp.addEventListener("input",()=>{
+  clearTimeout(timer);const q=inp.value;seq++;
+  if(!nz(q)){closeList();say("");return}
+  const hits=local(q);
+  if(hits.length){say("");showList(hits)}
+  else{closeList();say("");timer=setTimeout(()=>online(q,false),700)}
+ });
+ inp.addEventListener("keydown",e=>{
+  if(e.key!=="Enter")return;
+  e.preventDefault();clearTimeout(timer);
+  const q=inp.value;if(!nz(q)){say("نام شهر را بنویسید.");return}
+  const hits=local(q);
+  if(hits.length)go(hits[0]);else online(q,true);
+ });
+ document.addEventListener("click",e=>{if(!e.target.closest(".search-box"))closeList()});
+})();
 document.getElementById("resetMap").addEventListener("click",()=>map.fitBounds([[25,44],[40.5,64.5]],{padding:[20,20]}));
 map.fitBounds([[25,44],[40.5,64.5]],{padding:[18,18]});
 map.on("moveend",syncMarkers);syncMarkers();
+/* refresh by itself every hour while the page is open */
+window.__wxAt=Date.now();
+const hourly=()=>{if(!document.hidden&&Date.now()-(window.__wxAt||0)>=3600000)loadWeather()};
+setInterval(hourly,60000);document.addEventListener("visibilitychange",hourly);
 /* extra towns from OpenStreetMap for the visible area: names only, weather loads on click */
 const OSM_URLS=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter"];
 const osmDone=new Set(),osmSeen=new Set();let osmTimer=0;

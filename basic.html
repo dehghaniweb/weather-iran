@@ -653,6 +653,38 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 .mm b{font-size:22px}
 .mm.lo{background:rgba(90,170,255,.3);border:1px solid rgba(120,190,255,.6)}
 .mm.hi{background:rgba(255,140,80,.3);border:1px solid rgba(255,170,110,.6)}
+
+/* ===== v7: smooth scrolling, 14-day columns, footer, date ===== */
+.weatherCard,.day,.province,.favoriteRow,.searchResult,.search input,.button,.city,.favoriteButton{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.day,.province,.favoriteRow,.searchResult{box-shadow:none!important}
+#background{will-change:transform;transform:translateZ(0);contain:strict}
+@keyframes rainFallT{from{transform:translate3d(0,-30px,0) rotate(15deg)}to{transform:translate3d(0,110vh,0) rotate(15deg)}}
+@keyframes snowFallT{from{transform:translate3d(0,-20px,0)}to{transform:translate3d(60px,110vh,0)}}
+@keyframes cloudMoveT{from{translate:-250px 0}to{translate:calc(100vw + 400px) 0}}
+.raindrop{top:0;animation-name:rainFallT;will-change:transform}
+.snowflake{top:0;animation-name:snowFallT;will-change:transform}
+.cloud{animation-name:cloudMoveT;will-change:transform}
+.fog{filter:none;will-change:transform}
+#todayLine{font-size:19px;font-weight:bold;margin-top:6px;color:var(--accent,#ffe9a8)}
+.footer{text-align:center;font-size:13px;line-height:2}
+.footer div{margin:0}
+.forecast{display:flex;flex-direction:column;gap:7px;padding:0 14px 8px;overflow:visible}
+.dayHead,.day{display:grid;grid-template-columns:1.15fr 1.2fr .85fr .85fr .75fr;grid-template-areas:none;align-items:center;gap:4px;text-align:center}
+.dayHead{padding:0 12px 0 16px;font-size:13px;font-weight:bold;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.dayHead span:first-child{text-align:right}
+.dayHead .hMax{color:#ffb773}
+.dayHead .hMin{color:#8fd0ff}
+.day{min-width:0;padding:10px 12px 10px 8px;border:1px solid rgba(255,255,255,.14);border-right:6px solid var(--tc,#4fb3f3);border-radius:16px;background:var(--card,rgba(0,0,0,.26))}
+.day.today{border-color:rgba(255,216,77,.75);border-right-color:var(--tc,#4fb3f3);box-shadow:none!important}
+.cDay{text-align:right}
+.cDay b{display:block;font-size:16px}
+.cDay small{display:block;font-size:12px;opacity:.82}
+.cSky .ic{display:block;font-size:26px;line-height:1.1}
+.cSky small{display:block;font-size:12px;line-height:1.3;opacity:.92}
+.cMax,.cMin{font-size:26px;font-weight:bold;line-height:1}
+.cMax{color:#ffb773}
+.cMin{color:#8fd0ff}
+.cRain{font-size:15px;font-weight:bold}
 </style>
 </head>
 
@@ -760,7 +792,7 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 </div>
 
 <div class="title">
-    📅 پیش‌بینی ۱۴ روز آینده
+    🌤️ پیش‌بینی ۱۴ روز آینده
 </div>
 
 <div class="forecast" id="forecast"></div>
@@ -777,9 +809,7 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 
 <div id="favorites"></div>
 
-<div class="footer">
-    این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است. (علی و امیرآرشا دهقانی)
-</div>
+<div class="footer"><div>این برنامه کاملاً رایگان و بدون تبلیغات، برای آسایش شما ارائه شده است.</div><div>(علی و امیرآرشا دهقانی)</div></div>
 
 </div>
 
@@ -1418,10 +1448,9 @@ function selectCity(name,province,lat,lon,makeDefault){
    ===================================================== */
 
 var __wReq=0;
-function getWeather(lat,lon){
+function getWeather(lat,lon,silent){
     var myReq=++__wReq;
-    showLoading(true);
-    hideError();
+    if(!silent){showLoading(true);hideError();}
 
     var url=
         "https://api.open-meteo.com/v1/forecast"+
@@ -1500,6 +1529,7 @@ function getWeather(lat,lon){
             Math.round(rain);
 
         renderForecast(data.daily);
+        window.__wxAt=Date.now();
 
         setBackground(
             current.weather_code,
@@ -1508,6 +1538,7 @@ function getWeather(lat,lon){
     })
     .catch(function(error){
         if(myReq!==__wReq){return;}
+        if(silent){return;}
         var message="اتصال به سرویس هواشناسی برقرار نشد.";
 
         if(error && error.name==="AbortError"){
@@ -1533,92 +1564,35 @@ function getWeather(lat,lon){
    ===================================================== */
 
 function renderForecast(daily){
-
     var container=document.getElementById("forecast");
-
     container.innerHTML="";
-
     if(!daily || !daily.time){
         return;
     }
-
-    var week=[
-        "یکشنبه",
-        "دوشنبه",
-        "سه‌شنبه",
-        "چهارشنبه",
-        "پنجشنبه",
-        "جمعه",
-        "شنبه"
-    ];
-
+    var week=["یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"];
+    var head=document.createElement("div");
+    head.className="dayHead";
+    head.innerHTML="<span>روز</span><span>وضعیت</span><span class=\"hMax\">بیشترین</span><span class=\"hMin\">کمترین</span><span>بارش</span>";
+    container.appendChild(head);
+    var frag=document.createDocumentFragment();
     for(var i=0;i<daily.time.length;i++){
-
-        var date=new Date(
-            daily.time[i]+"T12:00:00"
-        );
-
-        var dayName;
-
-        if(i===0){
-            dayName="امروز";
-        }else{
-            dayName=week[date.getDay()];
-        }
-
-        var info=getWeatherInfo(
-            daily.weather_code[i]
-        );
-
-        var max=Math.round(
-            daily.temperature_2m_max[i]
-        );
-
-        var min=Math.round(
-            daily.temperature_2m_min[i]
-        );
-
-        var rain=Math.round(
-            daily.precipitation_probability_max[i] || 0
-        );
-
-        var card=document.createElement("div");
-
-        card.className="day "+(max>=35?"t-hot":max>=26?"t-warm":max>=16?"t-mild":max>=6?"t-cool":"t-cold");
-
-        var name=document.createElement("div");
-        name.className="dayName";
-        name.textContent=dayName;
-
-        var dateText=document.createElement("div");
-        dateText.className="dayDate";
-        dateText.textContent=new Intl.DateTimeFormat("fa-IR",{day:"numeric",month:"long"}).format(date);
-
-        var icon=document.createElement("div");
-        icon.className="dayIcon";
-        icon.textContent=info[0];
-
-        var condition=document.createElement("div");
-        condition.className="dayCondition";
-        condition.textContent=info[1];
-
-        var temp=document.createElement("div");
-        temp.className="dayTemp";
-        temp.textContent=max+"° / "+min+"°";
-
-        var rainText=document.createElement("div");
-        rainText.className="dayRain";
-        rainText.textContent="🌧 "+rain+"% احتمال بارش";
-
-        card.appendChild(name);
-        card.appendChild(dateText);
-        card.appendChild(icon);
-        card.appendChild(condition);
-        card.appendChild(temp);
-        card.appendChild(rainText);
-
-        container.appendChild(card);
+        var date=new Date(daily.time[i]+"T12:00:00");
+        var info=getWeatherInfo(daily.weather_code[i]);
+        var max=Math.round(daily.temperature_2m_max[i]);
+        var min=Math.round(daily.temperature_2m_min[i]);
+        var rain=Math.round(daily.precipitation_probability_max[i] || 0);
+        var row=document.createElement("div");
+        row.className="day"+(i===0?" today ":" ")+(max>=35?"t-hot":max>=26?"t-warm":max>=16?"t-mild":max>=6?"t-cool":"t-cold");
+        var nm=i===0?"امروز":week[date.getDay()];
+        var dt=new Intl.DateTimeFormat("fa-IR",{day:"numeric",month:"long"}).format(date);
+        row.innerHTML=
+            "<div class=\"cDay\"><b>"+nm+"</b><small>"+dt+"</small></div>"+
+            "<div class=\"cSky\"><span class=\"ic\">"+info[0]+"</span><small>"+info[1]+"</small></div>"+
+            "<div class=\"cMax\">"+max+"°</div><div class=\"cMin\">"+min+"°</div>"+
+            "<div class=\"cRain\">"+rain+"%</div>";
+        frag.appendChild(row);
     }
+    container.appendChild(frag);
 }
 
 
@@ -2193,6 +2167,14 @@ document.getElementById("setDefaultButton").addEventListener("click",function(){
     sh.addEventListener("click",function(e){if(e.target.closest("[data-close]")){close();}});
     document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!sh.hidden){close();}});
 })();
+window.__wxAt=Date.now();
+function hourlyRefresh(){
+    if(selectedCity&&!document.hidden&&Date.now()-(window.__wxAt||0)>=3600000){
+        getWeather(selectedCity.lat,selectedCity.lon,true);
+    }
+}
+setInterval(hourlyRefresh,60000);
+document.addEventListener("visibilitychange",hourlyRefresh);
 buildProvinces();
 renderFavorites();
 

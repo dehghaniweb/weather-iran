@@ -1,5 +1,5 @@
 /* Weather Iran - service worker: app shell works offline, live data and map tiles always come from the network */
-const V = "wx-v6";
+const V = "wx-v7";
 const SHELL = ["./", "index.html", "basic.html", "advanced.html", "manifest.webmanifest", "icon/icon-192.png", "icon/icon-512.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

@@ -1,5 +1,5 @@
 /* Weather Iran - service worker: app shell works offline, live data and map tiles always come from the network */
-const V = "wx-v7";
+const V = "wx-v8";
 const SHELL = ["./", "index.html", "basic.html", "advanced.html", "manifest.webmanifest", "icon/icon-192.png", "icon/icon-512.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -15,7 +15,7 @@ self.addEventListener("fetch", e => {
   e.respondWith((async () => {
     const hit = await caches.match(r);
     const net = fetch(r).then(res => {
-      if (res && (res.ok || res.type === "opaque") && (u.origin === location.origin || u.hostname === "unpkg.com")) {
+      if (res && (res.ok || res.type === "opaque") && (u.origin === location.origin || /^(unpkg\.com|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/.test(u.hostname))) {
         const cp = res.clone();
         caches.open(V).then(c => c.put(r, cp));
       }

@@ -8,6 +8,7 @@
 <link rel="icon" href="icon/icon-192.png">
 <link rel="apple-touch-icon" href="icon/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="prefetch" href="advanced.html" as="document">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="هواشناسی">
@@ -30,6 +31,10 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 .pane.b[data-on="0"]{transform:translateX(36px)}
 .pane.a[data-on="0"]{transform:translateX(-36px)}
 .pane iframe{display:block;width:100%;height:100%;border:0;background:#09192d}
+.note{position:absolute;left:14px;right:14px;top:22px;padding:16px;border-radius:18px;background:#fff;color:#12233f;border:1px solid #f3c5cc;box-shadow:0 12px 34px rgba(0,0,0,.3);display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;line-height:1.8;z-index:3}
+.note[hidden]{display:none}
+.note b{color:#a4243b;font-size:17px}
+.note button{border:0;border-radius:999px;background:linear-gradient(135deg,#ffd84d,#ffb020);color:#2a1a00;font:inherit;font-weight:bold;padding:10px 22px;cursor:pointer}
 @media(max-width:560px){.brand span{display:none}}
 @media(prefers-reduced-motion:reduce){.pane,.thumb{transition:none!important}}
 .bar{background:linear-gradient(180deg,#10294a,#09192d)}
@@ -47,16 +52,27 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 </header>
 <main class="stage">
   <div class="pane b" data-on="1"><iframe title="نسخه ساده" src="basic.html"></iframe></div>
-  <div class="pane a" data-on="0"><iframe title="نسخه پیشرفته" data-src="advanced.html"></iframe></div>
+  <div class="pane a" data-on="0"><iframe title="نسخه پیشرفته" data-src="advanced.html"></iframe>
+    <div class="note" id="advNote" hidden><b>نسخهٔ پیشرفته بارگذاری نشد</b><span>اتصال اینترنت را بررسی کنید و مطمئن شوید فایل advanced.html کنار index.html است.</span><button type="button" id="advRetry">تلاش دوباره</button></div></div>
 </main>
 <script>
 (function(){
   var root=document.getElementById("mode"),panes=[].slice.call(document.querySelectorAll(".pane")),cur=0,down=false;
+  var advReady=false,advTimer=0;
+  function loadFrame(f){
+    f.src=f.dataset.src;
+    if(f.dataset.src==="advanced.html"){
+      advReady=false;clearTimeout(advTimer);document.getElementById("advNote").hidden=true;
+      advTimer=setTimeout(function(){if(!advReady)document.getElementById("advNote").hidden=false},window.__advTimeout||12000);
+    }
+  }
+  window.addEventListener("message",function(e){if(e.data&&e.data.wx==="adv-ready"){advReady=true;document.getElementById("advNote").hidden=true}});
+  document.getElementById("advRetry").addEventListener("click",function(){var f=panes[1].querySelector("iframe");f.removeAttribute("src");loadFrame(f)});
   function apply(v,save){
     cur=v;root.dataset.m=v;root.style.setProperty("--p",v);
     root.setAttribute("aria-valuenow",v);root.setAttribute("aria-valuetext",v?"پیشرفته":"ساده");
     panes.forEach(function(p,i){p.dataset.on=i===v?1:0});
-    var f=panes[v].querySelector("iframe");if(!f.getAttribute("src")&&f.dataset.src)f.src=f.dataset.src;
+    var f=panes[v].querySelector("iframe");if(!f.getAttribute("src")&&f.dataset.src)loadFrame(f);
     document.title=v?"هواشناسی ایران | پیشرفته":"هواشناسی ایران";
     if(save!==false){try{localStorage.setItem("weatherMode",v)}catch(e){}}
   }

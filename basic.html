@@ -30,160 +30,20 @@ body{
     position:fixed;
     inset:0;
     z-index:-5;
-    background:linear-gradient(#2385c6,#102333);
-    transition:background 1s;
+    background:
+        radial-gradient(62% 46% at 88% 6%,var(--g1),transparent 72%),
+        radial-gradient(72% 52% at 8% 94%,var(--g2),transparent 72%),
+        radial-gradient(circle at 30% 40%,var(--dot) 1.3px,transparent 2.2px) 0 0/73px 97px,
+        radial-gradient(circle at 60% 55%,var(--dot) 1px,transparent 1.8px) 31px 17px/113px 131px,
+        linear-gradient(180deg,var(--s0),var(--s1) 55%,var(--s2));
+    will-change:transform;transform:translateZ(0);contain:strict;
 }
+html[data-season="spring"]{--s0:#25826f;--s1:#3c9a75;--s2:#22624f;--accent:#ffd9ea;--card:rgba(8,56,46,.42);--g1:rgba(255,184,214,.30);--g2:rgba(214,246,150,.22);--dot:rgba(255,226,240,.40)}
+html[data-season="summer"]{--s0:#0f70b3;--s1:#2c97c6;--s2:#17829d;--accent:#ffe08a;--card:rgba(6,52,90,.42);--g1:rgba(255,213,102,.38);--g2:rgba(255,186,96,.18);--dot:transparent}
+html[data-season="autumn"]{--s0:#8c4a2b;--s1:#a85f35;--s2:#5c3322;--accent:#ffd596;--card:rgba(56,26,14,.44);--g1:rgba(255,196,92,.30);--g2:rgba(190,66,44,.28);--dot:rgba(255,206,140,.38)}
+html[data-season="winter"]{--s0:#2d4c78;--s1:#527ca9;--s2:#283f60;--accent:#e6f3ff;--card:rgba(14,34,62,.44);--g1:rgba(205,228,255,.26);--g2:rgba(150,190,240,.18);--dot:rgba(255,255,255,.50)}
 
-.overlay{
-    position:absolute;
-    inset:0;
-    background:rgba(0,0,0,.18);
-}
-
-/* SUN */
-
-.sun{
-    position:absolute;
-    width:95px;
-    height:95px;
-    border-radius:50%;
-    background:#ffd84d;
-    box-shadow:0 0 30px #ffd84d,0 0 80px rgba(255,216,77,.5);
-    top:8%;
-    left:10%;
-    animation:sunMove 7s infinite alternate ease-in-out;
-}
-
-@keyframes sunMove{
-    from{transform:translate(0,0)}
-    to{transform:translate(35px,20px)}
-}
-
-/* CLOUD */
-
-.cloud{
-    position:absolute;
-    width:180px;
-    height:55px;
-    background:rgba(255,255,255,.75);
-    border-radius:50px;
-    display:none;
-    animation:cloudMove 30s linear infinite;
-}
-
-.cloud:before{
-    content:"";
-    position:absolute;
-    width:75px;
-    height:75px;
-    background:inherit;
-    border-radius:50%;
-    top:-35px;
-    left:30px;
-}
-
-.cloud:after{
-    content:"";
-    position:absolute;
-    width:95px;
-    height:95px;
-    background:inherit;
-    border-radius:50%;
-    top:-50px;
-    right:20px;
-}
-
-.cloud1{
-    top:18%;
-    left:-220px;
-}
-
-.cloud2{
-    top:34%;
-    left:-300px;
-    transform:scale(.7);
-    opacity:.7;
-    animation-duration:40s;
-}
-
-@keyframes cloudMove{
-    from{margin-left:-250px}
-    to{margin-left:calc(100vw + 400px)}
-}
-
-/* RAIN */
-
-#rain{
-    position:absolute;
-    inset:0;
-    display:none;
-    overflow:hidden;
-}
-
-.raindrop{
-    position:absolute;
-    width:2px;
-    height:22px;
-    background:rgba(190,225,255,.8);
-    transform:rotate(15deg);
-    animation:rainFall 0.7s linear infinite;
-}
-
-@keyframes rainFall{
-    from{top:-30px}
-    to{top:110vh}
-}
-
-/* SNOW */
-
-#snow{
-    position:absolute;
-    inset:0;
-    display:none;
-    overflow:hidden;
-}
-
-.snowflake{
-    position:absolute;
-    width:7px;
-    height:7px;
-    background:white;
-    border-radius:50%;
-    animation:snowFall 6s linear infinite;
-}
-
-@keyframes snowFall{
-    from{
-        top:-20px;
-        transform:translateX(0);
-    }
-    to{
-        top:110vh;
-        transform:translateX(60px);
-    }
-}
-
-/* STARS */
-
-#stars{
-    position:absolute;
-    inset:0;
-    display:none;
-}
-
-.star{
-    position:absolute;
-    width:3px;
-    height:3px;
-    border-radius:50%;
-    background:white;
-    animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-    from{opacity:.2}
-    to{opacity:1}
-}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.08)}
 
 /* APP */
 
@@ -603,20 +463,6 @@ body{direction:rtl}
 .city{background:rgba(255,255,255,.1)}
 .favoriteRow{border-right:6px solid #ffd54f}
 .footer{opacity:.8;font-size:11px;line-height:1.9;text-shadow:0 1px 6px rgba(0,0,0,.4)}
-/* scenes */
-.sun{background:radial-gradient(circle,#fff6c2 0,#ffd84d 62%);box-shadow:0 0 40px #ffd84d,0 0 110px rgba(255,216,77,.55)}
-.moon{position:absolute;top:9%;right:13%;width:72px;height:72px;border-radius:50%;background:#fff6d6;box-shadow:inset -15px -6px 0 rgba(0,0,0,.08),0 0 40px rgba(255,246,214,.55),0 0 100px rgba(255,246,214,.25);display:none}
-.fog{position:absolute;left:-30%;width:160%;height:34%;display:none;background:radial-gradient(ellipse at center,rgba(255,255,255,.6),rgba(255,255,255,0) 70%);filter:blur(16px);animation:fogDrift 26s ease-in-out infinite alternate}
-.fog1{top:6%}
-.fog2{top:34%;animation-duration:36s;animation-direction:alternate-reverse;opacity:.8}
-.fog3{top:62%;animation-duration:44s;opacity:.9}
-@keyframes fogDrift{from{transform:translateX(-9%)}to{transform:translateX(9%)}}
-.flash{position:absolute;inset:0;background:#fff;opacity:0;display:none;animation:flash 8s infinite}
-@keyframes flash{0%,91%,100%{opacity:0}92%{opacity:.4}93%{opacity:0}95%{opacity:.55}97%{opacity:0}}
-body[data-scene$="-night"] .cloud{background:rgba(175,195,232,.3)}
-body[data-scene^="rain"] .cloud,body[data-scene^="storm"] .cloud{background:rgba(110,130,158,.6)}
-body[data-scene^="fog"] .cloud{background:rgba(255,255,255,.35)}
-body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 /* default-city sheet + toast */
 .sheet[hidden],.pk-item[hidden],.pk-group[hidden]{display:none}
 .sheet{position:fixed;inset:0;z-index:2000;display:flex;align-items:flex-end;justify-content:center}
@@ -636,7 +482,6 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
 /* ===== v5: no sun/moon behind buttons, bigger type, min/max ===== */
-.sun,.moon{display:none!important}
 .condition{font-size:27px;font-weight:bold;margin-top:4px}
 .metricIcon{font-size:30px}
 .metricTitle{font-size:16px;opacity:.95;margin-top:6px;font-weight:bold}
@@ -657,14 +502,6 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 /* ===== v7: smooth scrolling, 14-day columns, footer, date ===== */
 .weatherCard,.day,.province,.favoriteRow,.searchResult,.search input,.button,.city,.favoriteButton{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .day,.province,.favoriteRow,.searchResult{box-shadow:none!important}
-#background{will-change:transform;transform:translateZ(0);contain:strict}
-@keyframes rainFallT{from{transform:translate3d(0,-30px,0) rotate(15deg)}to{transform:translate3d(0,110vh,0) rotate(15deg)}}
-@keyframes snowFallT{from{transform:translate3d(0,-20px,0)}to{transform:translate3d(60px,110vh,0)}}
-@keyframes cloudMoveT{from{translate:-250px 0}to{translate:calc(100vw + 400px) 0}}
-.raindrop{top:0;animation-name:rainFallT;will-change:transform}
-.snowflake{top:0;animation-name:snowFallT;will-change:transform}
-.cloud{animation-name:cloudMoveT;will-change:transform}
-.fog{filter:none;will-change:transform}
 #todayLine{font-size:19px;font-weight:bold;margin-top:6px;color:var(--accent,#ffe9a8)}
 .footer{text-align:center;font-size:13px;line-height:2}
 .footer div{margin:0}
@@ -686,27 +523,22 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
 .cMin{color:#8fd0ff}
 .cRain{font-size:15px;font-weight:bold}
 </style>
+<script>
+function currentSeason(){
+    var m=0;
+    try{m=+new Intl.DateTimeFormat("en-u-ca-persian",{month:"numeric"}).format(new Date());}catch(e){}
+    if(!(m>=1&&m<=12)){var g=new Date(),d=(g.getMonth()+1)*100+g.getDate();m=d>=321&&d<=621?1:d>=622&&d<=922?4:d>=923&&d<=1221?7:10;}
+    return m<=3?"spring":m<=6?"summer":m<=9?"autumn":"winter";
+}
+function setSeason(){var s=currentSeason();if(document.documentElement.getAttribute("data-season")!==s)document.documentElement.setAttribute("data-season",s);}
+setSeason();
+document.addEventListener("visibilitychange",function(){if(!document.hidden)setSeason();});
+</script>
 </head>
 
 <body>
 
-<div id="background">
-
-    <div class="overlay"></div>
-
-    <div class="sun" id="sun"></div>
-
-    <div class="cloud cloud1"></div>
-    <div class="cloud cloud2"></div>
-
-    <div id="rain"></div>
-    <div id="snow"></div>
-    <div id="stars"></div>
-    <div class="moon" id="moon"></div>
-    <div class="fog fog1"></div><div class="fog fog2"></div><div class="fog fog3"></div>
-    <div class="flash" id="flash"></div>
-
-</div>
+<div id="background"><div class="overlay"></div></div>
 
 <div class="app">
  <div class="header">
@@ -773,7 +605,7 @@ body[data-scene^="fog-day"] .overlay{background:rgba(18,32,46,.2)}
             <div class="metricIcon">🌧</div>
 
             <div class="metricTitle">
-                احتمال بارش
+                احتمال بارش امروز
             </div>
 
             <div class="metricValue">
@@ -1456,7 +1288,7 @@ function getWeather(lat,lon,silent){
         "https://api.open-meteo.com/v1/forecast"+
         "?latitude="+encodeURIComponent(lat)+
         "&longitude="+encodeURIComponent(lon)+
-        "&current=temperature_2m,apparent_temperature,weather_code,is_day"+
+        "&current=temperature_2m,apparent_temperature,weather_code"+
         "&hourly=precipitation_probability"+
         "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
         "&forecast_days=14"+
@@ -1515,14 +1347,10 @@ function getWeather(lat,lon,silent){
         }
 
         var rain=0;
-
-        if(
-            data.hourly &&
-            data.hourly.precipitation_probability &&
-            data.hourly.precipitation_probability.length>0
-        ){
-            var hi=data.hourly.time?data.hourly.time.indexOf(String(current.time||"").slice(0,13)+":00"):-1;
-            rain=data.hourly.precipitation_probability[hi>=0?hi:0] || 0;
+        if(data.daily && data.daily.precipitation_probability_max && data.daily.precipitation_probability_max.length>0){
+            rain=data.daily.precipitation_probability_max[0] || 0;
+        }else if(data.hourly && data.hourly.precipitation_probability && data.hourly.precipitation_probability.length>0){
+            rain=Math.max.apply(null,data.hourly.precipitation_probability.slice(0,24).map(function(v){return v||0;}));
         }
 
         document.getElementById("rainProbability").textContent=
@@ -1531,10 +1359,7 @@ function getWeather(lat,lon,silent){
         renderForecast(data.daily);
         window.__wxAt=Date.now();
 
-        setBackground(
-            current.weather_code,
-            current.is_day
-        );
+        setSeason();
     })
     .catch(function(error){
         if(myReq!==__wReq){return;}
@@ -1918,134 +1743,6 @@ function renderFavorites(){
    BACKGROUND
    ===================================================== */
 
-function clearEffects(){
-    ["rain","snow","stars"].forEach(function(id){var e=document.getElementById(id);e.innerHTML="";e.style.display="none";});
-    ["sun","moon","flash"].forEach(function(id){document.getElementById(id).style.display="none";});
-    [].forEach.call(document.querySelectorAll(".cloud,.fog"),function(e){e.style.display="none";});
-}
-function createRain(){
-
-    var container=
-        document.getElementById("rain");
-
-    container.style.display="block";
-
-    for(var i=0;i<90;i++){
-
-        var drop=document.createElement("div");
-
-        drop.className="raindrop";
-
-        drop.style.left=
-            Math.random()*100+"%";
-
-        drop.style.animationDelay=
-            Math.random()+"s";
-
-        drop.style.animationDuration=
-            (.4+Math.random()*.5)+"s";
-
-        container.appendChild(drop);
-    }
-}
-
-
-function createSnow(){
-
-    var container=
-        document.getElementById("snow");
-
-    container.style.display="block";
-
-    for(var i=0;i<60;i++){
-
-        var snow=document.createElement("div");
-
-        snow.className="snowflake";
- snow.style.left=
-            Math.random()*100+"%";
-
-        snow.style.animationDelay=
-            Math.random()*5+"s";
-
-        snow.style.animationDuration=
-            (4+Math.random()*5)+"s";
-
-        container.appendChild(snow);
-    }
-}
-
-
-function createStars(){
-
-    var container=
-        document.getElementById("stars");
-
-    container.style.display="block";
-
-    for(var i=0;i<70;i++){
-
-        var star=document.createElement("div");
-
-        star.className="star";
-
-        star.style.left=
-            Math.random()*100+"%";
-
-        star.style.top=
-            Math.random()*75+"%";
-
-        star.style.animationDelay=
-            Math.random()*3+"s";
-
-        container.appendChild(star);
-    }
-}
-
-
-function sceneKind(code){
-    if(code===0||code===1)return "clear";
-    if(code===2||code===3)return "cloud";
-    if(code===45||code===48)return "fog";
-    if((code>=71&&code<=77)||code===85||code===86)return "snow";
-    if(code>=95)return "storm";
-    if((code>=51&&code<=67)||(code>=80&&code<=82))return "rain";
-    return "cloud";
-}
-/* [sky top, sky middle, sky bottom, accent, card tint] */
-var SCENES={
-    "clear-day":["#1478cf","#4fb3f3","#a9dcff","#ffd84d","rgba(8,52,100,.42)"],
-    "clear-night":["#060b26","#142058","#2a3b86","#ffe08a","rgba(255,255,255,.09)"],
-    "cloud-day":["#4a7ba6","#86a9c6","#c3d5e4","#ffffff","rgba(20,48,76,.44)"],
-    "cloud-night":["#0f1a2e","#22345a","#374c78","#b9c8e8","rgba(255,255,255,.09)"],
-    "fog-day":["#7f93a3","#a5b5c2","#76899a","#e9f1f6","rgba(26,42,58,.48)"],
-    "fog-night":["#16202b","#2c3a48","#46566a","#c5d1db","rgba(255,255,255,.09)"],
-    "rain-day":["#35607f","#294a66","#13283a","#8fd0ff","rgba(6,22,38,.46)"],
-    "rain-night":["#0a1422","#15253a","#21354d","#7fb8e8","rgba(255,255,255,.08)"],
-    "snow-day":["#6d98c2","#a3c1dc","#5a7d9d","#ffffff","rgba(26,56,92,.44)"],
-    "snow-night":["#15233b","#2e4367","#496088","#dbe9ff","rgba(255,255,255,.09)"],
-    "storm-day":["#1b1e3c","#3a2f66","#19122f","#c9b6ff","rgba(10,8,28,.5)"],
-    "storm-night":["#0e0f21","#251f45","#140e27","#b9a5ff","rgba(255,255,255,.08)"]
-};
-function setBackground(code,isDay){
-    clearEffects();
-    var kind=sceneKind(code),key=kind+(isDay?"-day":"-night"),s=SCENES[key]||SCENES["clear-day"];
-    document.getElementById("background").style.background="linear-gradient(180deg,"+s[0]+" 0%,"+s[1]+" 55%,"+s[2]+" 100%)";
-    document.body.setAttribute("data-scene",key);
-    document.body.style.setProperty("--accent",s[3]);
-    document.body.style.setProperty("--card",s[4]);
-    var i,clouds=document.querySelectorAll(".cloud"),fogs=document.querySelectorAll(".fog");
-    if(kind==="clear"){
-        if(isDay){document.getElementById("sun").style.display="block";}
-        else{createStars();document.getElementById("moon").style.display="block";}
-    }else{
-        for(i=0;i<clouds.length;i++){clouds[i].style.display="block";}
-    }
-    if(kind==="fog"){for(i=0;i<fogs.length;i++){fogs[i].style.display="block";}}
-    if(kind==="rain"||kind==="storm"){createRain();}
-    if(kind==="snow"){createSnow();}
-    if(kind==="storm"){document.getElementById("flash").style.display="block";}
-}
 function showLoading(value){
 
     document.getElementById("loading")

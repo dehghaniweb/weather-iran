@@ -35,6 +35,8 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 .note[hidden]{display:none}
 .note b{color:#a4243b;font-size:17px}
 .note button{border:0;border-radius:999px;background:linear-gradient(135deg,#ffd84d,#ffb020);color:#2a1a00;font:inherit;font-weight:bold;padding:10px 22px;cursor:pointer}
+.pane.a iframe{background:transparent}
+.wait{position:absolute;inset:0;display:grid;place-items:center;color:#9eb4ce;font-size:14px}
 @media(max-width:560px){.brand span{display:none}}
 @media(prefers-reduced-motion:reduce){.pane,.thumb{transition:none!important}}
 .bar{background:linear-gradient(180deg,#10294a,#09192d)}
@@ -52,7 +54,7 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
 </header>
 <main class="stage">
   <div class="pane b" data-on="1"><iframe title="نسخه ساده" src="basic.html"></iframe></div>
-  <div class="pane a" data-on="0"><iframe title="نسخه پیشرفته" data-src="advanced.html"></iframe>
+  <div class="pane a" data-on="0"><div class="wait">در حال بارگذاری نسخهٔ پیشرفته…</div><iframe title="نسخه پیشرفته" data-src="advanced.html"></iframe>
     <div class="note" id="advNote" hidden><b>نسخهٔ پیشرفته بارگذاری نشد</b><span>اتصال اینترنت را بررسی کنید و مطمئن شوید فایل advanced.html کنار index.html است.</span><button type="button" id="advRetry">تلاش دوباره</button></div></div>
 </main>
 <script>
@@ -63,7 +65,7 @@ html,body{height:100%;margin:0;background:#09192d;color:#fff;font-family:Tahoma,
     f.src=f.dataset.src;
     if(f.dataset.src==="advanced.html"){
       advReady=false;clearTimeout(advTimer);document.getElementById("advNote").hidden=true;
-      advTimer=setTimeout(function(){if(!advReady)document.getElementById("advNote").hidden=false},window.__advTimeout||12000);
+      advTimer=setTimeout(function(){if(!advReady)document.getElementById("advNote").hidden=false},window.__advTimeout||20000);
     }
   }
   window.addEventListener("message",function(e){if(e.data&&e.data.wx==="adv-ready"){advReady=true;document.getElementById("advNote").hidden=true}});

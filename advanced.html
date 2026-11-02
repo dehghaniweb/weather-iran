@@ -11,6 +11,7 @@ window.__errs=[];
 function __showErr(){var d=document.getElementById("errBanner");if(!d){d=document.createElement("div");d.id="errBanner";(document.body||document.documentElement).appendChild(d)}d.textContent="Error: "+window.__errs.slice(0,3).join(" | ")}
 window.addEventListener("error",function(e){var t=e.target;if(t&&t!==window){if(t.tagName==="SCRIPT"){window.__errs.push("load failed: "+t.src);__showErr()}return}window.__errs.push((e.message||"error")+(e.lineno?" @"+e.lineno:""));__showErr()},true);
 window.addEventListener("unhandledrejection",function(e){window.__errs.push("promise: "+((e.reason&&e.reason.message)||e.reason));__showErr()});
+document.addEventListener("DOMContentLoaded",function(){try{parent.postMessage({wx:"adv-ready"},"*")}catch(e){}});
 </script>
 <style id="leafletCore">.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}
 .leaflet-container{overflow:hidden;position:relative;-webkit-tap-highlight-color:transparent;outline-offset:1px;font-family:Tahoma,Arial,sans-serif;font-size:12px;line-height:1.5}
